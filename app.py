@@ -185,13 +185,7 @@ def cms(wel):
         exit=f.read()
         if 'Traceback' in exit:
             lines = open('help.txt').readlines()
-            def lines_count(data):
-                answer=data[-3:-1]
-                for i in range(len(data)):
-                    if "^" in data[I]:
-                        answer=data[3:-1]
-                return answer
-            open('help.txt', 'w').writelines(lines_count(lines))
+            open('help.txt', 'w').writelines(lines[3:-1])
             preexit=open('help.txt').read()
             nameerrexit=str(open('help.txt').readlines())
             lineerrexit=open('help.txt').readlines()[0].split(',')[1]
