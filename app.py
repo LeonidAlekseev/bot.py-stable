@@ -229,7 +229,6 @@ def index():
 
 @app.route('/test')
 def test_route():
-    user_details =
     f = open('dict.txt','r')
     data=f.read()
     f.close()
