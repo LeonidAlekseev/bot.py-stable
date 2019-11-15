@@ -225,9 +225,5 @@ def index():
         return jsonify(r)
     return '<h1>PMiIT bot welcomes you</h1>'
 
-@app.route('/dict')
-def index():
-    return load_dict_from_file()
-
 if __name__ == '__main__':
     app.run()
