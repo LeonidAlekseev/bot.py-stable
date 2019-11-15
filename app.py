@@ -230,20 +230,7 @@ def index():
 
 @app.route('/dic')
 def dic():
-    {% extends "base.html" %}
-
-    {% block title %} Index {% block title %}
-
-    {% block head %}
-    <!-- Uses super() to retain the original contents-->
-    {{ super() }}
-    <style type="text/css">
-
-    </style>
-    {% endblock %}
-    {% block body %}
-    <h1>Hello, World!</h1>
-    {% endblock %}
+    return '<h1>PMiIT bot welcomes you</h1>'
 
 if __name__ == '__main__':
     app.run()
