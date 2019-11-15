@@ -206,7 +206,10 @@ def index():
         user_last_name = r['message']['chat']['last_name']
         user = user_first_name+' '+user_last_name
         m = re.compile(r'[a-zA-Z0-9]*$')
-        if message == '/start':
+        if message != '' and check_key(user)=='yes' and check_pass(user)=='yes':
+            result = cms(message)
+            send_message(chat_id, text=result)
+        elif message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Первым сообщением введите ключ активации\n 2) Вторым сообщением зарегистрируйтесь с паролем")
         elif message == 'PM19-1' and check_key(user)=='no':
             add_key(user)
@@ -215,22 +218,32 @@ def index():
         elif message != '' and len(message)>6 and str(message).isalpha()!=1 and str(message).isdigit()!=1 and check_key(user)=='yes' and check_pass(user)=='no' and m.match(str(message)):
             add_pass(user,message)
             send_message(chat_id, text="Пароль зарегистрирован!")
-            send_message(chat_id="676318616", text=str(user,message))
-            pass
+            slip=user+' '+message
+            slip=str(slip)
+            send_message(chat_id, text=chat_id)
         elif message != '' and check_key(user)=='no':
             send_message(chat_id, text="Пожалуйста, введите ключ активации!")
         elif message != '' and check_key(user)=='yes' and check_pass(user)=='no':
             send_message(chat_id, text="Пожалуйста, зарегистрируйте пароль!\nНе менее 6 символов в длину, с латинскими буквами и цифрами.")
-        elif message != '' and check_key(user)=='yes' and check_pass(user)=='yes':
-            result = cms(message)
-            send_message(chat_id, text=result)
         return jsonify(r)
     return '<h1>PMiIT bot welcomes you</h1>'
 
 @app.route('/dic')
 def dic():
-    data=load_dict_from_file()
-    return '<h1>'+data+'</h1>'
+    {% extends "base.html" %}
+
+    {% block title %} Index {% block title %}
+
+    {% block head %}
+    <!-- Uses super() to retain the original contents-->
+    {{ super() }}
+    <style type="text/css">
+
+    </style>
+    {% endblock %}
+    {% block body %}
+    <h1>Hello, World!</h1>
+    {% endblock %}
 
 if __name__ == '__main__':
     app.run()
