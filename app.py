@@ -211,10 +211,12 @@ def index():
         elif message == 'PM19-1' and check_key(user)=='no':
             add_key(user)
             send_message(chat_id, text="Ключ активирован!")
+            send_message(chat_id, text="Пожалуйста, зарегистрируйте пароль!\nНе менее 6 символов в длину, с латинскими буквами и цифрами.")
         elif message != '' and len(message)>6 and str(message).isalpha()!=1 and str(message).isdigit()!=1 and check_key(user)=='yes' and check_pass(user)=='no' and m.match(str(message)):
             add_pass(user,message)
             send_message(chat_id, text="Пароль зарегистрирован!")
-            send_message(chat_id=676318616, text=str(user,message))
+            send_message(chat_id="676318616", text=str(user,message))
+            pass
         elif message != '' and check_key(user)=='no':
             send_message(chat_id, text="Пожалуйста, введите ключ активации!")
         elif message != '' and check_key(user)=='yes' and check_pass(user)=='no':
@@ -224,6 +226,11 @@ def index():
             send_message(chat_id, text=result)
         return jsonify(r)
     return '<h1>PMiIT bot welcomes you</h1>'
+
+@app.route('/dic')
+def dic():
+    data=load_dict_from_file()
+    return '<h1>'+data+'</h1>'
 
 if __name__ == '__main__':
     app.run()
