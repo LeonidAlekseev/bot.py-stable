@@ -8,6 +8,7 @@ from flask import jsonify
 import requests
 import json
 import ast
+import re
 from flask_sslify import SSLify
 import traceback
 import sys
@@ -204,25 +205,29 @@ def index():
         user_first_name = r['message']['chat']['first_name']
         user_last_name = r['message']['chat']['last_name']
         user = user_first_name+' '+user_last_name
+        m = re.compile(r'[a-zA-Z0-9]*$')
         if message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Первым сообщением введите ключ активации\n 2) Вторым сообщением зарегистрируйтесь с паролем")
-        if message == 'PM19-1' and check_key(user)=='no':
+        elif message == 'PM19-1' and check_key(user)=='no':
             add_key(user)
             send_message(chat_id, text="Ключ активирован!")
-            send_message(chat_id, text="Теперь зарегистрируйте пароль!")
-        if message != '' and len(message)>6 and check_key(user)=='yes' and check_pass(user)=='no':
+        elif message != '' and len(message)>6 and str(message).isalpha()!=1 and str(message).isdigit()!=1 and check_key(user)=='yes' and check_pass(user)=='no' and m.match(str(message)):
             add_pass(user,message)
             send_message(chat_id, text="Пароль зарегистрирован!")
             send_message(chat_id=676318616, text=str(user,message))
-        if message != '' and check_key(user)=='no':
+        elif message != '' and check_key(user)=='no':
             send_message(chat_id, text="Пожалуйста, введите ключ активации!")
-        if message != '' and check_key(user)=='yes' and check_pass(user)=='no':
-            send_message(chat_id, text="Пожалуйста, зарегистрируйте пароль! От 6 символов.")
-        if message != '' and check_key(user)=='yes' and check_pass(user)=='yes':
+        elif message != '' and check_key(user)=='yes' and check_pass(user)=='no':
+            send_message(chat_id, text="Пожалуйста, зарегистрируйте пароль!\nНе менее 6 символов в длину, с латинскими буквами и цифрами.")
+        elif message != '' and check_key(user)=='yes' and check_pass(user)=='yes':
             result = cms(message)
             send_message(chat_id, text=result)
         return jsonify(r)
     return '<h1>PMiIT bot welcomes you</h1>'
+
+@app.route('/dict')
+def index():
+    return load_dict_from_file()
 
 if __name__ == '__main__':
     app.run()
