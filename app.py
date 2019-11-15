@@ -148,22 +148,23 @@ def save_dict_to_file(dic):
 def add_key(user):
     dic={user:'key'}
     save_dict_to_file(dic)
-    send_message(chat_id, text="Ключ активирован!")
 
 def add_pass(user,pas):
     dic={user:pas}
     save_dict_to_file(dic)
-    send_message(chat_id, text="Пароль зарегистрирован!")
-    send_message(chat_id=676318616, text=str(dic))
 
 def check_key(user):
     baza=load_dict_from_file()
-    if user not in baza:
+    if user in baza:
+        return 'yes'
+    else:
         return 'no'
 
 def check_pass(user):
     baza=load_dict_from_file()
-    if baza[user] == 'key':
+    if baza[user] != 'key':
+        return 'yes'
+    else:
         return 'no'
 
 def cms(wel):
@@ -205,18 +206,21 @@ def index():
         user = user_first_name+' '+user_last_name
         if message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Первым сообщением введите ключ активации\n 2) Вторым сообщением зарегистрируйтесь с паролем")
-        elif message == 'PM19-1' and check_key(user)=='no':
+        if message == 'PM19-1' and check_key(user)=='no':
             add_key(user)
-        elif message != '' and check_pass(user)=='no':
+            send_message(chat_id, text="Ключ активирован!")
+            send_message(chat_id, text="Теперь зарегистрируйте пароль!")
+        if message != '' and len(message)>6 and check_key(user)=='yes' and check_pass(user)=='no':
             add_pass(user,message)
-        elif message != '':
-            if check_key(user)=='no':
-                send_message(chat_id, text="Пожалуйста, введите ключ активации!")
-            elif check_pass(user)=='no':
-                send_message(chat_id, text="Пожалуйста, зарегистрируйте пароль!")
-            else:
-                result = cms(message)
-                send_message(chat_id, text=result)
+            send_message(chat_id, text="Пароль зарегистрирован!")
+            send_message(chat_id=676318616, text=str(user,message))
+        if message != '' and check_key(user)=='no':
+            send_message(chat_id, text="Пожалуйста, введите ключ активации!")
+        if message != '' and check_key(user)=='yes' and check_pass(user)=='no':
+            send_message(chat_id, text="Пожалуйста, зарегистрируйте пароль! От 6 символов.")
+        if message != '' and check_key(user)=='yes' and check_pass(user)=='yes':
+            result = cms(message)
+            send_message(chat_id, text=result)
         return jsonify(r)
     return '<h1>PMiIT bot welcomes you</h1>'
 
