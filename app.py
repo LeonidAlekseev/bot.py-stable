@@ -234,7 +234,12 @@ def index():
     if request.method == 'POST':
         r = request.get_json()
         chat_id = r['message']['chat']['id']
-        message = r['message']['text']
+        photo_id="0"
+        try:
+            message = r['message']['text']
+            photo_id=r['message']['photo'][-1]['file_id']
+        except BaseException:
+            pass
         #photo_id=0
         #try:
         #    photo_id=r['message']['photo']#[-1]['file_id']
@@ -253,7 +258,10 @@ def index():
             #path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+photo_path
             #send_message(chat_id, text=path_to_download)
         if check_key(user)=='yes' and check_pass(user)=='yes':
-            send_message(chat_id, text=r)
+            if photo_id != "0":
+                photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+photo_id
+                send_message(chat_id, text=photo)
+            send_message(chat_id, text=str(r))
             result = cms(message)
             send_message(chat_id, text=result)
         elif message == '/start':
