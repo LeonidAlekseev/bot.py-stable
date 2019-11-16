@@ -17,6 +17,14 @@ import pymongo
 from pymongo import MongoClient
 import datetime
 import math
+import time
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+import codecs
+import shutil
+import os
 
 
 app = Flask(__name__)
@@ -228,6 +236,53 @@ def cms(wel):
     return exit
 #-Cms
 
+#Selenium
+def get_ocr(url):
+    #download file
+    filename = url.split("/")[-1]
+    response = requests.get(url, stream=True)
+
+    with open(str(filename), 'wb') as out_file:
+        shutil.copyfileobj(response.raw, out_file)
+    del response
+    #selenium
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    url='https://www.newocr.com/'
+    driver.get(url)
+    element = driver.find_element_by_id("userfile")
+    element.send_keys(os.getcwd() + "/" + filename)
+    preview= driver.find_element_by_id("preview")
+    preview.click()
+    del_language= driver.find_element_by_xpath("//ul[@class='chosen-choices']/li[@class='search-choice']/a[@class='search-choice-close']")
+    del_language.click()
+    search_language= driver.find_element_by_xpath("//div[@class='chosen-container chosen-container-multi']/ul[@class='chosen-choices']")
+    search_language.click()
+    input_language = driver.find_element_by_xpath("//ul[@class='chosen-choices']/li[@class='search-field']/input[@class='default']")
+    input_language.click()
+    input_language.send_keys('English')
+    input_language.send_keys(Keys.ENTER)
+    check_on = driver.find_element_by_xpath("//form[@id='form-ocr']/div[@class='span10']/p[3]/label[@class='checkbox']/input[2]")
+    check_on.click()
+    orc = driver.find_element_by_id("ocr")
+    orc.click()
+    found1 = False
+    while not found1:
+        try:
+            element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
+            if element_.is_displayed():
+                return element_.text
+                found1 = True
+        except NoSuchElementException:
+            found1 = False
+    #delete file
+    os.remove(filename)
+#-selenium
+
 #Flask
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -250,14 +305,15 @@ def index():
         m = re.compile(r'[a-zA-Z0-9]*$')
         if check_key(user)=='yes' and check_pass(user)=='yes':
             if photo_id != "0":
-                #photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
                 photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
                 ph = requests.get(photo)
                 ph= ph.json()
                 photo_path=ph['result']['file_path']
                 path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+str(photo_path)
-                send_message(chat_id, text=path_to_download)
+                text_ocr = get_ocr(path_to_download)
+                send_message(chat_id, text="Вот что у нас получилось:")
+                send_message(chat_id, text=text_ocr)
             elif message != "":
                 result = cms(message)
                 send_message(chat_id, text=result)
