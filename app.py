@@ -15,6 +15,8 @@ import sys
 from contextlib import redirect_stdout
 import pymongo
 from pymongo import MongoClient
+import datetime
+import math
 
 
 app = Flask(__name__)
@@ -171,6 +173,11 @@ def new_user(user):
 #-MongoDB
 
 #Auth
+def key():
+    now = datetime.datetime.now()
+    key = str(math.fabs(math.sin(now.minute+now.day)))[2:7]
+    return key+'-PM19.1'
+
 def add_key(user):
     new_user(user)
 
@@ -234,9 +241,11 @@ def index():
         if message != '' and check_key(user)=='yes' and check_pass(user)=='yes':
             result = cms(message)
             send_message(chat_id, text=result)
+            res=find_password(user)
+            send_message(chat_id, text=res)
         elif message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Первым сообщением введите ключ активации\n 2) Вторым сообщением зарегистрируйтесь с паролем")
-        elif message == 'PM19-1' and check_key(user)=='no':
+        elif message == key() and check_key(user)=='no':
             add_key(user)
             send_message(chat_id, text="Ключ активирован!")
             send_message(chat_id, text="Пожалуйста, зарегистрируйте пароль!\nНе менее 6 символов в длину, с латинскими буквами и цифрами.")
