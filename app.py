@@ -289,6 +289,7 @@ def index():
     if request.method == 'POST':
         r = request.get_json()
         chat_id = r['message']['chat']['id']
+        send_message(chat_id, text="Тест") 
         photo_id="0"
         message=""
         try:
