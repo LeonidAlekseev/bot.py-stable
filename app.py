@@ -237,7 +237,7 @@ def index():
         message = r['message']['text']
         photo_id=0
         try:
-            photo_id=r['message']['photo'][-1]['file_id']
+            photo_id=r['message']['photo']#[-1]['file_id']
         except BaseException:
             pass
         user_first_name = r['message']['chat']['first_name']
