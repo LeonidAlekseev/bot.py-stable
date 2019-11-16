@@ -158,7 +158,7 @@ def find_password(user):
     post = {"user":user}
     passwords = collection.find(post)
     for password in passwords:
-        if password != '':
+        if password != "0":
             answer = True
     return answer
 
@@ -168,7 +168,7 @@ def new_password(user,password):
     results = collection.update_one(user_post,pass_post)
 
 def new_user(user):
-    post = {"user": user}
+    post = {"user": user,"password": "0"}
     collection.insert_one(post)
 #-MongoDB
 
