@@ -159,6 +159,7 @@ def find_password(user):
     passwords = collection.find(post)
     for password in passwords:
         if password != "0":
+            send_message(chat_id, text=password)
             answer = True
     return answer
 
