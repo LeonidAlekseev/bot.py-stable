@@ -319,7 +319,7 @@ def index():
                 result = cms(message)
                 send_message(chat_id, text=result)
         elif message == '/start':
-            send_message(chat_id, text="Инструкция:\n 1) Первым сообщением введите ключ активации\n 2) Вторым сообщением зарегистрируйтесь с паролем")
+            send_message(chat_id, text="Инструкция:\n 1) Сначала введите ключ активации(его можно запросить у Lil Dojd - https://vk.com/misterlil).\n 2) Затем зарегистрируйтесь с паролем.\n\n-Если вы отправляете боту текст(код python), он его выполняет и выводит результат. В случа ошибки бот подскажет по какой причине она возникла.\n-Если вы отправляете боту фото, он распознает текст(код python) и отправлит его в сообщении. После этого вы можете внести поправки и отправить код(программу) боту для выполения.")
         elif message == key() and check_key(user)=='no':
             add_key(user)
             send_message(chat_id, text="Ключ активирован!")
@@ -334,7 +334,7 @@ def index():
         elif message != '' and check_key(user)=='yes' and check_pass(user)=='no':
             send_message(chat_id, text="Пожалуйста, зарегистрируйте пароль!\nНе менее 6 символов в длину, с латинскими буквами и цифрами.")
         return jsonify(r)
-    return '<h1>PMiIT bot welcomes you</h1>'
+    return '<h1>PM19.1 bot working now!</h1>'
 #-Flask
 
 if __name__ == '__main__':
