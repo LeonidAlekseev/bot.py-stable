@@ -13,6 +13,8 @@ from flask_sslify import SSLify
 import traceback
 import sys
 from contextlib import redirect_stdout
+import pymongo
+from pymongo import MongoClient
 
 
 app = Flask(__name__)
@@ -26,6 +28,7 @@ def send_message(chat_id, text='Какой-то текст.'):
     r = requests.post(url, json=answer)
     return r.json()
 
+#Definitions
 def transtlate(errname):
     if "BaseException" in errname:
         sut="базовое исключение, от которого берут начало все остальные"
@@ -132,42 +135,60 @@ def transtlate(errname):
     else:
         sut="ошибка не опознана"
     return sut
+#-Definitions
 
-def load_dict_from_file():
-    f = open('dict.txt','r')
-    data=f.read()
-    f.close()
-    return eval(data)
+#MongoDB
+cluster=MongoClient("mongodb+srv://pm191bot:10406500Qq@cluster0-umqxp.mongodb.net/test?retryWrites=true&w=majority")
+db = cluster["botdatabase"]
+collection = db["pm191"]
 
-def save_dict_to_file(dic):
-    old=load_dict_from_file()
-    old.update(dic)
-    f = open('dict.txt','w')
-    f.write(str(old))
-    f.close()
+def find_string(user):
+    answer = 0
+    post = {"user":user}
+    results = collection.find(post)
+    for result in results:
+        answer = result
+    return answer
 
+def find_password(user):
+    answer = 0
+    post = {"user":user}
+    passwords = collection.find(post)
+    for password in passwords:
+        answer = password["password"]
+    return answer
+
+def new_password(user,password):
+    user_post = {"user":user}
+    pass_post = {"$set":{"password":password}}
+    results = collection.update_one(user_post,pass_post)
+
+def new_user(user):
+    post = {"user": user}
+    collection.insert_one(post)
+#-MongoDB
+
+#Auth
 def add_key(user):
-    dic={user:'key'}
-    save_dict_to_file(dic)
+    new_user(user)
 
 def add_pass(user,pas):
-    dic={user:pas}
-    save_dict_to_file(dic)
+    new_password(user,pas)
 
 def check_key(user):
-    baza=load_dict_from_file()
-    if user in baza:
+    if find_string(user) != '':
         return 'yes'
     else:
         return 'no'
 
 def check_pass(user):
-    baza=load_dict_from_file()
-    if baza[user] != 'key':
+    if find_password(user) != '':
         return 'yes'
     else:
         return 'no'
+#-Auth
 
+#Cms
 def cms(wel):
     with open('help.txt', 'w') as f:
         with redirect_stdout(f):
@@ -195,7 +216,9 @@ def cms(wel):
         else:
             exit=open('help.txt', 'r').read()
     return exit
+#-Cms
 
+#Flask
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
@@ -226,15 +249,7 @@ def index():
             send_message(chat_id, text="Пожалуйста, зарегистрируйте пароль!\nНе менее 6 символов в длину, с латинскими буквами и цифрами.")
         return jsonify(r)
     return '<h1>PMiIT bot welcomes you</h1>'
-
-@app.route('/test')
-def test_route():
-    f = open('dict.txt','r')
-    data=f.read()
-    f.close()
-    user_details = eval(data)
-
-    return render_template('test.html', user=user_details)
+#-Flask
 
 if __name__ == '__main__':
     app.run()
