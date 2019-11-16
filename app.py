@@ -244,10 +244,10 @@ def index():
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
                 photo_id=r['message']['photo'][-1]['file_id']
                 photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+photo_id
-                ph = photo.get_json()
-                photo_path=ph['result']['file_path']
-                path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+photo_path
-                send_message(chat_id, text=path_to_download)
+                #ph = photo.get_json()
+                #photo_path=ph['result']['file_path']
+                #path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+photo_path
+                send_message(chat_id, text=photo)
             else:
                 result = cms(message)
                 send_message(chat_id, text=result)
