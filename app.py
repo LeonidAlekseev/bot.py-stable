@@ -258,12 +258,13 @@ def index():
             #path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+photo_path
             #send_message(chat_id, text=path_to_download)
         if check_key(user)=='yes' and check_pass(user)=='yes':
-            if photo_id != "0":
-                photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+photo_id
-                send_message(chat_id, text=photo)
             send_message(chat_id, text=str(r))
-            result = cms(message)
-            send_message(chat_id, text=result)
+            if photo_id != "0":
+                photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
+                send_message(chat_id, text=str(photo))
+            else:
+                result = cms(message)
+                send_message(chat_id, text=result)
         elif message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Первым сообщением введите ключ активации\n 2) Вторым сообщением зарегистрируйтесь с паролем")
         elif message == key() and check_key(user)=='no':
