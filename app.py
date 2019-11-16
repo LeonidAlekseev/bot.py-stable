@@ -143,19 +143,21 @@ db = cluster["botdatabase"]
 collection = db["pm191"]
 
 def find_string(user):
-    answer = 0
+    answer = False
     post = {"user":user}
     results = collection.find(post)
     for result in results:
-        answer = result
+        if result != '':
+            answer = True
     return answer
 
 def find_password(user):
-    answer = 0
+    answer = False
     post = {"user":user}
     passwords = collection.find(post)
     for password in passwords:
-        answer = password["password"]
+        if password != '':
+            answer = True
     return answer
 
 def new_password(user,password):
@@ -176,13 +178,13 @@ def add_pass(user,pas):
     new_password(user,pas)
 
 def check_key(user):
-    if find_string(user) != '':
+    if find_string(user):
         return 'yes'
     else:
         return 'no'
 
 def check_pass(user):
-    if find_password(user) != '':
+    if find_password(user):
         return 'yes'
     else:
         return 'no'
@@ -232,8 +234,6 @@ def index():
         if message != '' and check_key(user)=='yes' and check_pass(user)=='yes':
             result = cms(message)
             send_message(chat_id, text=result)
-            res = find_string(user)
-            send_message(chat_id, text=res)
         elif message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Первым сообщением введите ключ активации\n 2) Вторым сообщением зарегистрируйтесь с паролем")
         elif message == 'PM19-1' and check_key(user)=='no':
