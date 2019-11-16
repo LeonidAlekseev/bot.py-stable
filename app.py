@@ -165,6 +165,7 @@ def find_password(user):
     answer = False
     post = {"user":user}
     passwords = collection.find(post)
+    check="0"
     for password in passwords:
         check = password["password"]
         if check != "0":
@@ -299,7 +300,7 @@ def index():
         try:
             photo_id=r['message']['photo'][-1]['file_id']
         except BaseException:
-                pass
+            pass
         user_first_name = r['message']['chat']['first_name']
         user_last_name = r['message']['chat']['last_name']
         user = user_first_name+' '+user_last_name
