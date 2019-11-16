@@ -238,7 +238,7 @@ def index():
         message=""
         try:
             message = r['message']['text']
-            photo_id=r['message']['photo'][-1]['file_id']
+            photo_id=r['message']['photo']
         except BaseException:
             pass
         #photo_id=0
@@ -261,8 +261,8 @@ def index():
         if check_key(user)=='yes' and check_pass(user)=='yes':
             send_message(chat_id, text=str(r))
             if photo_id != "0":
-                photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
-                send_message(chat_id, text=str(photo))
+                #photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
+                send_message(chat_id, text=str(photo_id))
             elif message != "":
                 result = cms(message)
                 send_message(chat_id, text=result)
