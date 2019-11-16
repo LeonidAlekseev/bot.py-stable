@@ -158,8 +158,8 @@ def find_password(user):
     post = {"user":user}
     passwords = collection.find(post)
     for password in passwords:
-        if password != "0":
-            send_message(676318616, text=password)
+        check = password["password"]
+        if check != "0":
             answer = True
     return answer
 
@@ -242,8 +242,6 @@ def index():
         if message != '' and check_key(user)=='yes' and check_pass(user)=='yes':
             result = cms(message)
             send_message(chat_id, text=result)
-            res=find_password(user)
-            send_message(chat_id, text=res)
         elif message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Первым сообщением введите ключ активации\n 2) Вторым сообщением зарегистрируйтесь с паролем")
         elif message == key() and check_key(user)=='no':
