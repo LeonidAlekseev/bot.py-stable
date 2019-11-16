@@ -301,9 +301,19 @@ def index():
             photo_id=r['message']['photo'][-1]['file_id']
         except BaseException:
             pass
-        user_first_name = r['message']['chat']['first_name']
-        user_last_name = r['message']['chat']['last_name']
+        user_first_name='0' 
+        user_last_name='0' 
+        try:
+            user_first_name = r['message']['chat']['first_name']
+        except BaseException:
+            pass
+        try:
+            user_last_name = r['message']['chat']['last_name']
+        except BaseException:
+            pass
         user = user_first_name+' '+user_last_name
+        if user=='0 0':
+            user=chat_id
         m = re.compile(r'[a-zA-Z0-9]*$')
         if check_key(user)=='yes' and check_pass(user)=='yes':
             if photo_id != "0":
