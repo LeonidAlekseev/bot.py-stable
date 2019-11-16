@@ -314,6 +314,7 @@ def index():
                 text_ocr = get_ocr(path_to_download)
                 send_message(chat_id, text="Вот что у нас получилось:")
                 send_message(chat_id, text=text_ocr)
+                send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения")
             elif message != "":
                 result = cms(message)
                 send_message(chat_id, text=result)
