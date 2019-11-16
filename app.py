@@ -235,6 +235,7 @@ def index():
         r = request.get_json()
         chat_id = r['message']['chat']['id']
         photo_id="0"
+        message=""
         try:
             message = r['message']['text']
             photo_id=r['message']['photo'][-1]['file_id']
@@ -262,7 +263,7 @@ def index():
             if photo_id != "0":
                 photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
                 send_message(chat_id, text=str(photo))
-            else:
+            elif message != "":
                 result = cms(message)
                 send_message(chat_id, text=result)
         elif message == '/start':
