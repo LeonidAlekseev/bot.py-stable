@@ -244,28 +244,20 @@ def index():
             photo_id=r['message']['photo'][-1]['file_id']
         except BaseException:
                 pass
-        #photo_id=0
-        #try:
-        #    photo_id=r['message']['photo']#[-1]['file_id']
-        #except BaseException:
-        #    pass
         user_first_name = r['message']['chat']['first_name']
         user_last_name = r['message']['chat']['last_name']
         user = user_first_name+' '+user_last_name
         m = re.compile(r'[a-zA-Z0-9]*$')
-        #if photo_id != '' and check_key(user)=='yes' and check_pass(user)=='yes':
-            #send_message(chat_id, text="Подождите, пока фото обрабатывается.")
-            #photo_id=r['message']['photo'][-1]['file_id']
-            #photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+photo_id
-            #ph = photo.get_json()
-            #photo_path=ph['result']['file_path']
-            #path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+photo_path
-            #send_message(chat_id, text=path_to_download)
         if check_key(user)=='yes' and check_pass(user)=='yes':
             if photo_id != "0":
                 #photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
-                send_message(chat_id, text=str(r))
-                send_message(chat_id, text=str(photo_id))
+                send_message(chat_id, text="Подождите, пока фото обрабатывается.")
+                photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
+                ph = requests.get(photo)
+                ph= ph.json()
+                photo_path=ph['result']['file_path']
+                path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+str(photo_path)
+                send_message(chat_id, text=path_to_download)
             elif message != "":
                 result = cms(message)
                 send_message(chat_id, text=result)
