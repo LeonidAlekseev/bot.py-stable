@@ -278,8 +278,8 @@ def get_ocr(url):
     input_language.click()
     input_language.send_keys('English')
     input_language.send_keys(Keys.ENTER)
-    check_on = driver.find_element_by_xpath("//form[@id='form-ocr']/div[@class='span10']/p[3]/label[@class='checkbox']/input[2]")
-    check_on.click()
+    #check_on = driver.find_element_by_xpath("//form[@id='form-ocr']/div[@class='span10']/p[3]/label[@class='checkbox']/input[2]")
+    #check_on.click()
     orc = driver.find_element_by_id("ocr")
     orc.click()
     found1 = False
