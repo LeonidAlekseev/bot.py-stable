@@ -238,7 +238,10 @@ def cms(wel):
 #-Cms
 
 #Selenium
+stop_selenium="0"
 def get_ocr(url):
+    global stop_selenium
+    stop_seleium="1" 
     #download file
     filename = url.split("/")[-1]
     response = requests.get(url, stream=True)
@@ -282,6 +285,7 @@ def get_ocr(url):
             found1 = False
     #delete file
     os.remove(filename)
+    stop_seleium="0" 
 #-selenium
 
 #Flask
@@ -314,8 +318,9 @@ def index():
         if user=='0 0':
             user=chat_id
         m = re.compile(r'[a-zA-Z0-9]*$')
+        global stop_seleium
         if check_key(user)=='yes' and check_pass(user)=='yes':
-            if photo_id != "0":
+            if photo_id != "0" and stop_seleium = "0":
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
                 photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
                 ph = requests.get(photo)
