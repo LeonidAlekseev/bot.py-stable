@@ -243,8 +243,8 @@ def get_ocr(url):
     #download file
     filename = url.split("/")[-1]
     filetype = filename.split('.') 
-    if filetype[-1] != "jpg" or filetype[-1] != "png":
-        return "Ошибка. Формат фото только png или jpg!" 
+    if filetype[-1] != "jpg" and filetype[-1] != "png":
+        return 0 
     response = requests.get(url, stream=True)
     with open(str(filename), 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
@@ -326,20 +326,20 @@ def index():
             user=chat_id
         m = re.compile(r'[a-zA-Z0-9]*$')
         if check_key(user)=='yes' and check_pass(user)=='yes':
-            proces_ocr = True
-            if photo_id != "0" and proces_ocr:
+            if photo_id != "0":
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
-                proces_ocr = False
                 photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
                 ph = requests.get(photo)
                 ph= ph.json()
                 photo_path=ph['result']['file_path']
                 path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+str(photo_path)
                 text_ocr = get_ocr(path_to_download)
-                send_message(chat_id, text="Вот что у нас получилось:")
-                send_message(chat_id, text=text_ocr)
-                send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
-                proces_ocr = True
+                if text_ocr != 0:
+                    send_message(chat_id, text="Вот что у нас получилось:")
+                    send_message(chat_id, text=text_ocr)
+                    send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
+                else:
+                    send_message(chat_id, text="Ошибка. Формат фото только png или jpg!")
             elif message != "":
                 result = cms(message)
                 send_message(chat_id, text=result)
