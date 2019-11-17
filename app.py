@@ -245,7 +245,6 @@ def get_ocr(url):
     #download file
     filename = url.split("/")[-1]
     response = requests.get(url, stream=True)
-
     with open(str(filename), 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
     del response
@@ -257,7 +256,15 @@ def get_ocr(url):
     chrome_options.add_argument("--no-sandbox")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     url='https://www.newocr.com/'
-    driver.get(url)
+    found2 = False
+    while not found2:
+        try:
+            driver.get(url)
+            element_ = driver.find_element_by_id("userfile")
+            if element_.is_displayed():
+                found2 = True
+        except NoSuchElementException:
+            found2 = False
     element = driver.find_element_by_id("userfile")
     element.send_keys(os.getcwd() + "/" + filename)
     preview= driver.find_element_by_id("preview")
