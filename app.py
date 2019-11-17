@@ -285,7 +285,8 @@ def get_ocr(url):
     orc.click()
     error = "0"
     try:
-        error = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
+        alert = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
+        error = alert.text
     except BaseException:
         pass
     if error != "0":
