@@ -245,7 +245,7 @@ def get_ocr(url):
     filename = url.split("/")[-1]
     filetype = filename.split('.') 
     if filetype[-1] != "jpg" and filetype[-1] != "png":
-        return 0 
+        return 111
     response = requests.get(url, stream=True)
     with open(str(filename), 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
@@ -286,15 +286,19 @@ def get_ocr(url):
     try:
         element_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
         if element_.is_displayed():
-            return 1 
+            return 222 
     except NoSuchElementException:
         pass
     found1 = False
     while not found1:
         try:
             element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
-            if element_.is_displayed():
-                return element_.text
+            element_error_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
+            if element_.is_displayed() or element_error_.is_displayed():
+                if element_.is_displayed():
+                    return element_.text
+                if element_error_.is_displayed():
+                    return 111
                 found1 = True
         except NoSuchElementException:
             found1 = False
@@ -341,9 +345,9 @@ def index():
                 photo_path=ph['result']['file_path']
                 path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+str(photo_path)
                 text_ocr = get_ocr(path_to_download)
-                if text_ocr == 0:
+                if text_ocr == 111:
                     send_message(chat_id, text="Ошибка. Формат фото только png или jpg!")
-                elif text_ocr == 1:
+                elif text_ocr == 222:
                     send_message(chat_id, text="Ошибка. Текст не распознан!")
                 else:
                     send_message(chat_id, text="Вот что у нас получилось:")
