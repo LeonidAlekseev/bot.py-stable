@@ -288,7 +288,7 @@ def get_ocr(url):
         error = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
     except BaseException:
         pass
-    if error == "0":
+    if error != "0":
         return 1 
     found1 = False
     while not found1:
