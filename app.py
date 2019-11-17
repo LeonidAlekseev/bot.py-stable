@@ -238,12 +238,14 @@ def cms(wel):
 #-Cms
 
 #Selenium
-stop_selenium=True
 def get_ocr(url):
     global stop_selenium
     stop_seleium=False
     #download file
     filename = url.split("/")[-1]
+    filetype = filename.split('.') 
+    if filetype[-1] != "jpg" or filetype[-1] != "png":
+        return "Ошибка. Формат фото только png или jpg!" 
     response = requests.get(url, stream=True)
     with open(str(filename), 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
@@ -296,9 +298,10 @@ def get_ocr(url):
 #-selenium
 
 #Flask
+stop_selenium=True
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    global stop_seleium
+    global stop_selenium
     if request.method == 'POST':
         r = request.get_json()
         chat_id = r['message']['chat']['id']
@@ -359,6 +362,7 @@ def index():
         return jsonify(r)
     return '<h1>PM19.1 bot working now!</h1>'
 #-Flask
+stop_selenium=True
 
 if __name__ == '__main__':
     app.run()
