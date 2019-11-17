@@ -282,6 +282,13 @@ def get_ocr(url):
     #check_on.click()
     orc = driver.find_element_by_id("ocr")
     orc.click()
+    error = "0"
+    try:
+        error = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
+    except BaseException:
+        pass
+    if error == "0":
+        return 1 
     found1 = False
     while not found1:
         try:
@@ -334,12 +341,14 @@ def index():
                 photo_path=ph['result']['file_path']
                 path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+str(photo_path)
                 text_ocr = get_ocr(path_to_download)
-                if text_ocr != 0:
+                if text_ocr == 0:
+                    send_message(chat_id, text="Ошибка. Формат фото только png или jpg!")
+                elif text_ocr == 1:
+                    send_message(chat_id, text="Ошибка. Текст не распознан!")
+                else:
                     send_message(chat_id, text="Вот что у нас получилось:")
                     send_message(chat_id, text=text_ocr)
                     send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
-                else:
-                    send_message(chat_id, text="Ошибка. Формат фото только png или jpg!")
             elif message != "":
                 result = cms(message)
                 send_message(chat_id, text=result)
