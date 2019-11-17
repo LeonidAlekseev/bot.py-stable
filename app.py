@@ -293,15 +293,19 @@ def get_ocr(url):
     while not found1:
         try:
             element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
-            element_error_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
-            if element_.is_displayed() or element_error_.is_displayed():
+            if element_.is_displayed():
                 if element_.is_displayed():
                     return element_.text
-                if element_error_.is_displayed():
-                    return 111
                 found1 = True
         except NoSuchElementException:
-            found1 = False
+            try:
+                element_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
+                if element_.is_displayed():
+                    if element_.is_displayed():
+                        return 111
+                    found1 = True
+            except NoSuchElementException:
+                found1 = False
     #delete file
     os.remove(filename)
 #-Selenium
