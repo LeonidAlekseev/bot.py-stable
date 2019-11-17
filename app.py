@@ -283,14 +283,12 @@ def get_ocr(url):
     #check_on.click()
     orc = driver.find_element_by_id("ocr")
     orc.click()
-    error = "0"
     try:
-        alert = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
-        error = alert.text
-    except BaseException:
+        element_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
+        if element_.is_displayed():
+            return 1 
+    except NoSuchElementException:
         pass
-    if error != "0":
-        return 1 
     found1 = False
     while not found1:
         try:
