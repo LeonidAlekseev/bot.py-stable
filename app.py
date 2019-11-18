@@ -352,7 +352,7 @@ def index():
                 my_string=str(text_ocr)
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
                 for k, v in mapping:
-                my_string = my_string.replace(k, v)
+                    my_string = my_string.replace(k, v)
                 if text_ocr == 111:
                     send_message(chat_id, text="Ошибка формата. Конвертируйте фото в png или jpg!")
                 elif text_ocr == 222:
