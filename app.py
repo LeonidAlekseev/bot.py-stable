@@ -32,7 +32,7 @@ app = Flask(__name__)
 sslify = SSLify(app)
 token="TOKEN"+"/"
 URL = 'https://api.telegram.org/bot'+token
-login="MONGOLOGIN"
+login="pm191bot:10406500Qq"
 
 def send_message(chat_id, text='Какой-то текст.'):
     url = URL + 'sendMessage'
