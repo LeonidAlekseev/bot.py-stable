@@ -26,15 +26,15 @@ from webdriver_manager.chrome import ChromeDriverManager
 import codecs
 import shutil
 import os
-from boto.s3.connection import S3Connection
+
+
+app = Flask(__name__)
+sslify = SSLify(app)
 
 token = str(os.environ.get("TOKEN"))+"/"
 mongo_login=str(os.environ.get("MONGO_LOGIN"))
 mongo_cluster=str(os.environ.get("MONGO_CLUSTER"))
 mongo_collection=str(os.environ.get("MONGO_COLLECTION"))
-token = str(os.environ.get("TOKEN")+"/"
-app = Flask(__name__)
-sslify = SSLify(app)
 URL = 'https://api.telegram.org/bot'+token
 
 
