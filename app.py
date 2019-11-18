@@ -350,9 +350,9 @@ def index():
                 path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+str(photo_path)
                 text_ocr = get_ocr(path_to_download)
                 if text_ocr == 111:
-                    send_message(chat_id, text="Ошибка. Формат фото только png или jpg!")
+                    send_message(chat_id, text="Ошибка формата. Конвертируйте фото в png или jpg!")
                 elif text_ocr == 222:
-                    send_message(chat_id, text="Ошибка. Текст не распознан!")
+                    send_message(chat_id, text="Ошибка распознования. Попробуйте ещё раз!")
                 else:
                     send_message(chat_id, text="Вот что у нас получилось:")
                     send_message(chat_id, text=text_ocr)
