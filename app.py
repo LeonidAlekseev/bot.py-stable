@@ -151,7 +151,7 @@ def transtlate(errname):
 
 #MongoDB
 login="MONGOLOGIN"
-cluster=MongoClient("mongodb+srv://"+login_pass+"@cluster0-umqxp.mongodb.net/test?retryWrites=true&w=majority")
+cluster=exec(login)
 db = cluster["botdatabase"]
 collection = db["pm191"]
 
