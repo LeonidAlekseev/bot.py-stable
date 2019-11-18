@@ -26,13 +26,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 import codecs
 import shutil
 import os
+from boto.s3.connection import S3Connection
 
-
+token = str(S3Connection(os.environ['TOKEN']))+"/"
+login = str(S3Connection(os.environ['MONGO_LOGIN']))
 app = Flask(__name__)
 sslify = SSLify(app)
-token="TOKEN"+"/"
 URL = 'https://api.telegram.org/bot'+token
-login="pm191bot:10406500Qq"
 
 def send_message(chat_id, text='Какой-то текст.'):
     url = URL + 'sendMessage'
