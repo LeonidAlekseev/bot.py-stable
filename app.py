@@ -32,7 +32,7 @@ app = Flask(__name__)
 sslify = SSLify(app)
 token="TOKEN"+"/"
 URL = 'https://api.telegram.org/bot'+token
-
+login="MONGOLOGIN"
 
 def send_message(chat_id, text='Какой-то текст.'):
     url = URL + 'sendMessage'
@@ -150,8 +150,7 @@ def transtlate(errname):
 #-Definitions
 
 #MongoDB
-login="MONGOLOGIN"
-cluster=exec(login)
+cluster=MongoClient("mongodb+srv://"+login+"@cluster0-umqxp.mongodb.net/test?retryWrites=true&w=majority")
 db = cluster["botdatabase"]
 collection = db["pm191"]
 
