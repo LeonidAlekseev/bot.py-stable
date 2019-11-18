@@ -150,8 +150,8 @@ def transtlate(errname):
 
 #MongoDB
 cluster=MongoClient("MONGOLOGIN")
-db = cluster["botdatabase"]
-collection = db["pm191"]
+db = cluster["MONGODB"]
+collection = db["MONGOCOL"]
 
 def find_string(user):
     answer = False
