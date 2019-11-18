@@ -30,7 +30,7 @@ import os
 
 app = Flask(__name__)
 sslify = SSLify(app)
-URL = 'https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/'
+URL = 'https://api.telegram.org/bot'+<TOKEN>+'/'
 
 
 def send_message(chat_id, text='Какой-то текст.'):
@@ -343,11 +343,11 @@ def index():
         if check_key(user)=='yes' and check_pass(user)=='yes':
             if photo_id != "0":
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
-                photo="https://api.telegram.org/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/getFile?file_id="+str(photo_id)
+                photo="https://api.telegram.org/bot"+<TOKEN>+"/getFile?file_id="+str(photo_id)
                 ph = requests.get(photo)
                 ph= ph.json()
                 photo_path=ph['result']['file_path']
-                path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+str(photo_path)
+                path_to_download="https://api.telegram.org/file/bot"+<TOKEN>+"/"+str(photo_path)
                 text_ocr = get_ocr(path_to_download)
                 my_string=str(text_ocr)
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
