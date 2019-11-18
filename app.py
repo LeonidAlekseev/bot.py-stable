@@ -149,7 +149,7 @@ def transtlate(errname):
 #-Definitions
 
 #MongoDB
-cluster=MongoClient("mongodb+srv://pm191bot:10406500Qq@cluster0-umqxp.mongodb.net/test?retryWrites=true&w=majority")
+cluster=MongoClient("MONGOLOGIN")
 db = cluster["botdatabase"]
 collection = db["pm191"]
 
