@@ -30,7 +30,8 @@ import os
 
 app = Flask(__name__)
 sslify = SSLify(app)
-URL = 'https://api.telegram.org/bot'+"TOKEN"+'/'
+token="TOKEN"+"/"
+URL = 'https://api.telegram.org/bot'+token
 
 
 def send_message(chat_id, text='Какой-то текст.'):
@@ -210,32 +211,35 @@ def check_pass(user):
 
 #Cms
 def cms(wel):
-    with open('help.txt', 'w') as f:
-        with redirect_stdout(f):
-            if "while True" not in wel and "input(" not in wel:
-                try:
-                    exec(wel)
-                except Exception:
-                    print(traceback.format_exc())
+    try:
+        with open('help.txt', 'w') as f:
+            with redirect_stdout(f):
+                if "while True" not in wel and "input(" not in wel:
+                    try:
+                        exec(wel)
+                    except Exception:
+                        print(traceback.format_exc())
+                else:
+                    if "while True" in wel:
+                        print("Бесконечный цикл невозможен")
+                    if "input(" in wel:
+                        print("Ввод невозможен")
+        with open('help.txt', 'r') as f:
+            exit=f.read()
+            if 'Traceback' in exit:
+                lines = open('help.txt').readlines()
+                open('help.txt', 'w').writelines(lines[3:-1])
+                preexit=open('help.txt').read()
+                nameerrexit=str(open('help.txt').readlines())
+                lineerrexit=open('help.txt').readlines()[0].split(',')[1]
+                lineerrexit=lineerrexit.replace("line", "линия")
+                sutexit=transtlate(nameerrexit)
+                exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки:'+lineerrexit
             else:
-                if "while True" in wel:
-                    print("Бесконечный цикл невозможен")
-                if "input(" in wel:
-                    print("Ввод невозможен")
-    with open('help.txt', 'r') as f:
-        exit=f.read()
-        if 'Traceback' in exit:
-            lines = open('help.txt').readlines()
-            open('help.txt', 'w').writelines(lines[3:-1])
-            preexit=open('help.txt').read()
-            nameerrexit=str(open('help.txt').readlines())
-            lineerrexit=open('help.txt').readlines()[0].split(',')[1]
-            lineerrexit=lineerrexit.replace("line", "линия")
-            sutexit=transtlate(nameerrexit)
-            exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки:'+lineerrexit
-        else:
-            exit=open('help.txt', 'r').read()
-    return exit
+                exit=open('help.txt', 'r').read()
+        return exit
+    except BaseException:
+        return "Технические неполадки. Обратитесь к отцу бота Lil Dojd: https://vk.com/misterlil"
 #-Cms
 
 #Selenium
@@ -343,11 +347,11 @@ def index():
         if check_key(user)=='yes' and check_pass(user)=='yes':
             if photo_id != "0":
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
-                photo="https://api.telegram.org/bot"+"TOKEN"+"/getFile?file_id="+str(photo_id)
+                photo=URL+"getFile?file_id="+str(photo_id)
                 ph = requests.get(photo)
                 ph= ph.json()
                 photo_path=ph['result']['file_path']
-                path_to_download="https://api.telegram.org/file/bot"+"TOKEN"+"/"+str(photo_path)
+                path_to_download=URL+str(photo_path)
                 text_ocr = get_ocr(path_to_download)
                 my_string=str(text_ocr)
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
