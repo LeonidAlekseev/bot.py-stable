@@ -295,11 +295,12 @@ def get_ocr(url):
             element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
             if element_.is_displayed():
                 if element_.is_displayed():
-                    my_string=element_.text
-                    mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
-                    for k, v in mapping:
-                    my_string = my_string.replace(k, v)
-                    return my_string
+                    return type(element_.text) 
+                    #my_string=element_.text
+                    #mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
+                    #for k, v in mapping:
+                    #my_string = my_string.replace(k, v)
+                    #return my_string
                 found1 = True
         except NoSuchElementException:
             try:
