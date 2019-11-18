@@ -28,11 +28,15 @@ import shutil
 import os
 from boto.s3.connection import S3Connection
 
-token = str(S3Connection(os.environ['TOKEN']))+"/"
-login = str(S3Connection(os.environ['MONGO_LOGIN']))
+token = str(os.environ.get("TOKEN")+"/"
+mongo_login=str(os.environ.get("MONGO_LOGIN")
+mongo_cluster=str(os.environ.get("MONGO_CLUSTER")
+mongo_collection=str(os.environ.get("MONGO_COLLECTION")
+token = str(os.environ.get("TOKEN")+"/"
 app = Flask(__name__)
 sslify = SSLify(app)
 URL = 'https://api.telegram.org/bot'+token
+
 
 def send_message(chat_id, text='Какой-то текст.'):
     url = URL + 'sendMessage'
@@ -150,9 +154,9 @@ def transtlate(errname):
 #-Definitions
 
 #MongoDB
-cluster=MongoClient("mongodb+srv://"+login+"@cluster0-umqxp.mongodb.net/test?retryWrites=true&w=majority")
-db = cluster["botdatabase"]
-collection = db["pm191"]
+cluster=MongoClient("mongodb+srv://"+mongo_login+"@cluster0-umqxp.mongodb.net/test?retryWrites=true&w=majority")
+db = cluster[mongo_cluster]
+collection = db[mongo_collection]
 
 def find_string(user):
     answer = False
