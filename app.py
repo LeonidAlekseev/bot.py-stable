@@ -150,7 +150,8 @@ def transtlate(errname):
 #-Definitions
 
 #MongoDB
-cluster=MongoClient("mongodb+srv://pm191bot:10406500Qq@cluster0-umqxp.mongodb.net/test?retryWrites=true&w=majority")
+login="MONGOLOGIN"
+cluster=MongoClient("mongodb+srv://"+login_pass+"@cluster0-umqxp.mongodb.net/test?retryWrites=true&w=majority")
 db = cluster["botdatabase"]
 collection = db["pm191"]
 
@@ -211,35 +212,32 @@ def check_pass(user):
 
 #Cms
 def cms(wel):
-    try:
-        with open('help.txt', 'w') as f:
-            with redirect_stdout(f):
-                if "while True" not in wel and "input(" not in wel:
-                    try:
-                        exec(wel)
-                    except Exception:
-                        print(traceback.format_exc())
-                else:
-                    if "while True" in wel:
-                        print("Бесконечный цикл невозможен")
-                    if "input(" in wel:
-                        print("Ввод невозможен")
-        with open('help.txt', 'r') as f:
-            exit=f.read()
-            if 'Traceback' in exit:
-                lines = open('help.txt').readlines()
-                open('help.txt', 'w').writelines(lines[3:-1])
-                preexit=open('help.txt').read()
-                nameerrexit=str(open('help.txt').readlines())
-                lineerrexit=open('help.txt').readlines()[0].split(',')[1]
-                lineerrexit=lineerrexit.replace("line", "линия")
-                sutexit=transtlate(nameerrexit)
-                exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки:'+lineerrexit
+    with open('help.txt', 'w') as f:
+        with redirect_stdout(f):
+            if "while True" not in wel and "input(" not in wel:
+                try:
+                    exec(wel)
+                except Exception:
+                    print(traceback.format_exc())
             else:
-                exit=open('help.txt', 'r').read()
-        return exit
-    except BaseException:
-        return "Технические неполадки. Обратитесь к отцу бота Lil Dojd: https://vk.com/misterlil"
+                if "while True" in wel:
+                    print("Бесконечный цикл невозможен")
+                if "input(" in wel:
+                    print("Ввод невозможен")
+    with open('help.txt', 'r') as f:
+        exit=f.read()
+        if 'Traceback' in exit:
+            lines = open('help.txt').readlines()
+            open('help.txt', 'w').writelines(lines[3:-1])
+            preexit=open('help.txt').read()
+            nameerrexit=str(open('help.txt').readlines())
+            lineerrexit=open('help.txt').readlines()[0].split(',')[1]
+            lineerrexit=lineerrexit.replace("line", "линия")
+            sutexit=transtlate(nameerrexit)
+            exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки:'+lineerrexit
+        else:
+            exit=open('help.txt', 'r').read()
+    return exit
 #-Cms
 
 #Selenium
