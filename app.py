@@ -295,12 +295,7 @@ def get_ocr(url):
             element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
             if element_.is_displayed():
                 if element_.is_displayed():
-                    return type(element_.text) 
-                    #my_string=element_.text
-                    #mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
-                    #for k, v in mapping:
-                    #my_string = my_string.replace(k, v)
-                    #return my_string
+                    return element_.text
                 found1 = True
         except NoSuchElementException:
             try:
@@ -354,13 +349,17 @@ def index():
                 photo_path=ph['result']['file_path']
                 path_to_download="https://api.telegram.org/file/bot953353291:AAEgHkSY2PLKa2Ve2Z7Mu3WAOM5pir_fUmk/"+str(photo_path)
                 text_ocr = get_ocr(path_to_download)
+                my_string=str(text_ocr)
+                mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
+                for k, v in mapping:
+                my_string = my_string.replace(k, v)
                 if text_ocr == 111:
                     send_message(chat_id, text="Ошибка формата. Конвертируйте фото в png или jpg!")
                 elif text_ocr == 222:
                     send_message(chat_id, text="Ошибка распознования. Попробуйте ещё раз!")
                 else:
                     send_message(chat_id, text="Вот что у нас получилось:")
-                    send_message(chat_id, text=text_ocr)
+                    send_message(chat_id, text=my_string)
                     send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
             elif message != "":
                 result = cms(message)
