@@ -261,7 +261,7 @@ def get_ocr(url):
     img = img.resize(new_size, Image.ANTIALIAS)
     img.save("4x"+filename)
     #pytesseract
-    text = pytesseract.image_to_string(Image.open("4x"+filename))
+    text = pytesseract.image_to_string(Image.open(filename))
     if text != '':
         return text
     else:
