@@ -252,7 +252,6 @@ def get_ocr(url):
         shutil.copyfileobj(response.raw, out_file)
     del response
     #size of image
-    filename="example.jpg"
     img = Image.open(filename)
     new_size = tuple(4*x for x in img.size)
     img = img.resize(new_size, Image.ANTIALIAS)
