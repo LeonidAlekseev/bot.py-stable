@@ -309,12 +309,10 @@ def index():
                 ph= ph.json()
                 photo_path=ph['result']['file_path']
                 path_to_download="https://api.telegram.org/file/bot"+token+str(photo_path)
-                send_message(chat_id, text=path_to_download)
                 try:
                     text_ocr = get_ocr(path_to_download)
                 except BaseException:
                     text_ocr = 333
-                text_ocr = get_ocr(path_to_download)
                 my_string=str(text_ocr)
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
                 for k, v in mapping:
