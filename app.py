@@ -245,6 +245,7 @@ def cms(wel):
 
 #Selenium
 def get_ocr(url):
+    chat_id=676318616
     send_message(chat_id, text="download file")
     stop_seleium=False
     #download file
