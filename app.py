@@ -251,26 +251,24 @@ def get_ocr(url):
     filetype = filename.split('.')
     if filetype[-1] != "jpg" and filetype[-1] != "png":
         return 111
-    with urllib.request.urlopen(url) as f:
-        b = io.BytesIO(f.read())
-        im = Image.open(b)
-        im.save(str(filename))
-    text = pytesseract.image_to_string(Image.open(filename))
-    return str(text)
+    response = requests.get(url, stream=True)
+    with open(str(filename), 'wb') as out_file:
+        shutil.copyfileobj(response.raw, out_file)
+    del response
     #size of image
-    #img = Image.open(filename)
-    #new_size = tuple(4*x for x in img.size)
-    #img = img.resize(new_size, Image.ANTIALIAS)
-    #img.save("4x"+filename)
+    img = Image.open(filename)
+    new_size = tuple(4*x for x in img.size)
+    img = img.resize(new_size, Image.ANTIALIAS)
+    img.save("4x"+filename)
     #pytesseract
-    #text = pytesseract.image_to_string(Image.open("4x"+filename))
-    #if text != '':
-    #    return text
-    #else:
-    #    return 222
+    text = pytesseract.image_to_string(Image.open("4x"+filename))
+    if text != '':
+        return text
+    else:
+        return 222
     #delete file
-    #os.remove(filename)
-    #os.remove("4x"+filename)
+    os.remove(filename)
+    os.remove("4x"+filename)
 #-OCR
 
 #Flask
@@ -310,7 +308,7 @@ def index():
                 ph = requests.get(photo)
                 ph= ph.json()
                 photo_path=ph['result']['file_path']
-                path_to_download=URL+str(photo_path)
+                path_to_download="https://api.telegram.org/file/bot"+token+str(photo_path)
                 send_message(chat_id, text=path_to_download)
                 try:
                     text_ocr = get_ocr(path_to_download)
