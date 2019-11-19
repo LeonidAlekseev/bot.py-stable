@@ -249,6 +249,7 @@ def get_ocr(url):
     stop_seleium=False
     #download file
     filename = url.split("/")[-1]
+    send_message(chat_id, text=str(filename))
     filetype = filename.split('.') 
     if filetype[-1] != "jpg" and filetype[-1] != "png":
         return 111
