@@ -289,10 +289,11 @@ def get_ocr(url):
         try:
             element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
             if element_.is_displayed():
-                print(element_.text)
+                retocr = element_.text
                 found1 = True
         except NoSuchElementException:
             found1 = False
+    return retocr
     os.remove(filename)
     send_message(chat_id, text="-Selenium")
 #-Selenium
