@@ -245,6 +245,7 @@ def cms(wel):
 
 #Selenium
 def get_ocr(url):
+    send_message(chat_id, text="download file")
     stop_seleium=False
     #download file
     filename = url.split("/")[-1]
@@ -256,6 +257,7 @@ def get_ocr(url):
         shutil.copyfileobj(response.raw, out_file)
     del response
     #selenium
+    send_message(chat_id, text="selenium")
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--headless")
@@ -295,6 +297,7 @@ def get_ocr(url):
     except NoSuchElementException:
         pass
     found1 = False
+    send_message(chat_id, text="while not found1")
     while not found1:
         try:
             element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
@@ -311,6 +314,7 @@ def get_ocr(url):
                     found1 = True
             except NoSuchElementException:
                 found1 = False
+    send_message(chat_id, text="-Selenium")
     #delete file
     os.remove(filename)
 #-Selenium
@@ -349,17 +353,16 @@ def index():
             if photo_id != "0":
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
                 photo=URL+"getFile?file_id="+str(photo_id)
-                send_message(chat_id, text='photo=URL+"getFile?file_id="+str(photo_id)')
+                send_message(chat_id, text=URL+"getFile?file_id="+str(photo_id))
                 ph = requests.get(photo)
-                send_message(chat_id, text="ph = requests.get(photo)")
                 ph= ph.json()
-                send_message(chat_id, text="ph= ph.json()")
                 photo_path=ph['result']['file_path']
-                send_message(chat_id, text="photo_path=ph['result']['file_path']")
+                send_message(chat_id, text=URL+str(photo_path))
                 path_to_download=URL+str(photo_path)
-                send_message(chat_id, text="path_to_download=URL+str(photo_path)")
-                text_ocr = get_ocr(path_to_download)
-                send_message(chat_id, text="text_ocr = get_ocr(path_to_download)")
+                try:
+                    text_ocr = get_ocr(path_to_download)
+                except BaseException:
+                    text_ocr = "Ошибка распознования. Попробуйте ещё раз!"
                 my_string=str(text_ocr)
                 send_message(chat_id, text="my_string=str(text_ocr)")
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
