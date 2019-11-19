@@ -251,20 +251,22 @@ def get_ocr(url):
     with open(str(filename), 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
     del response
+    text = pytesseract.image_to_string(Image.open(filename))
+    return str(text)
     #size of image
-    img = Image.open(filename)
-    new_size = tuple(4*x for x in img.size)
-    img = img.resize(new_size, Image.ANTIALIAS)
-    img.save("4x"+filename)
+    #img = Image.open(filename)
+    #new_size = tuple(4*x for x in img.size)
+    #img = img.resize(new_size, Image.ANTIALIAS)
+    #img.save("4x"+filename)
     #pytesseract
-    text = pytesseract.image_to_string(Image.open("4x"+filename))
-    if text != '':
-        return text
-    else:
-        return 222
+    #text = pytesseract.image_to_string(Image.open("4x"+filename))
+    #if text != '':
+    #    return text
+    #else:
+    #    return 222
     #delete file
-    os.remove(filename)
-    os.remove("4x"+filename)
+    #os.remove(filename)
+    #os.remove("4x"+filename)
 #-OCR
 
 #Flask
@@ -305,10 +307,7 @@ def index():
                 ph= ph.json()
                 photo_path=ph['result']['file_path']
                 path_to_download=URL+str(photo_path)
-                try:
-                    text_ocr = get_ocr(path_to_download)
-                except BaseException:
-                    text_ocr = 333
+                text_ocr = get_ocr(path_to_download)
                 my_string=str(text_ocr)
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
                 for k, v in mapping:
@@ -318,7 +317,7 @@ def index():
                 elif text_ocr == 222:
                     send_message(chat_id, text="Ошибка распознования. Попробуйте ещё раз!")
                 elif text_ocr == 333:
-                    send_message(chat_id, text="Технические неполадки. Обратитесь к отцу бота Lil Dojd - https://vk.com/misterlil!")
+                    send_message(chat_id, text="Технические неполадки. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil")
                 else:
                     send_message(chat_id, text="Вот что у нас получилось:")
                     send_message(chat_id, text=my_string)
