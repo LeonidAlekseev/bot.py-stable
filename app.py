@@ -349,12 +349,19 @@ def index():
             if photo_id != "0":
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
                 photo=URL+"getFile?file_id="+str(photo_id)
+                send_message(chat_id, text='photo=URL+"getFile?file_id="+str(photo_id)')
                 ph = requests.get(photo)
+                send_message(chat_id, text="ph = requests.get(photo)")
                 ph= ph.json()
+                send_message(chat_id, text="ph= ph.json()")
                 photo_path=ph['result']['file_path']
+                send_message(chat_id, text="photo_path=ph['result']['file_path']")
                 path_to_download=URL+str(photo_path)
+                send_message(chat_id, text="path_to_download=URL+str(photo_path)")
                 text_ocr = get_ocr(path_to_download)
+                send_message(chat_id, text="text_ocr = get_ocr(path_to_download)")
                 my_string=str(text_ocr)
+                send_message(chat_id, text="my_string=str(text_ocr)")
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
                 for k, v in mapping:
                     my_string = my_string.replace(k, v)
