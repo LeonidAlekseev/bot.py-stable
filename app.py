@@ -193,7 +193,7 @@ def new_user(user):
 def key():
     now = datetime.datetime.now()
     key = str(math.fabs(math.sin(now.minute+now.day)))[2:7]
-    return key+'-PM19.1'
+    return key+'-LIL'
 
 def add_key(user):
     new_user(user)
@@ -262,6 +262,7 @@ def get_ocr(url):
     img.save("4x"+filename)
     #pytesseract
     text = pytesseract.image_to_string(Image.open("4x"+filename))
+    text = text.replace("\n\n","\n")
     if text != '':
         return text
     else:
