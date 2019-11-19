@@ -264,63 +264,35 @@ def get_ocr(url):
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
+    
     url='https://www.newocr.com/'
-    found2 = False
-    while not found2:
-        try:
-            driver.get(url)
-            element_ = driver.find_element_by_id("userfile")
-            if element_.is_displayed():
-                found2 = True
-        except NoSuchElementException:
-            found2 = False
+    driver.get(url)
     element = driver.find_element_by_id("userfile")
     element.send_keys(os.getcwd() + "/" + filename)
     preview= driver.find_element_by_id("preview")
     preview.click()
-    send_message(chat_id, text='preview.click()')
     del_language= driver.find_element_by_xpath("//ul[@class='chosen-choices']/li[@class='search-choice']/a[@class='search-choice-close']")
     del_language.click()
-    send_message(chat_id, text='del_language.click()')
     search_language= driver.find_element_by_xpath("//div[@class='chosen-container chosen-container-multi']/ul[@class='chosen-choices']")
     search_language.click()
-    send_message(chat_id, text='search_language.click()')
     input_language = driver.find_element_by_xpath("//ul[@class='chosen-choices']/li[@class='search-field']/input[@class='default']")
     input_language.click()
     input_language.send_keys('English')
     input_language.send_keys(Keys.ENTER)
-    send_message(chat_id, text='input_language.send_keys(Keys.ENTER)')
-    #check_on = driver.find_element_by_xpath("//form[@id='form-ocr']/div[@class='span10']/p[3]/label[@class='checkbox']/input[2]")
-    #check_on.click()
+    check_on = driver.find_element_by_xpath("//form[@id='form-ocr']/div[@class='span10']/p[3]/label[@class='checkbox']/input[2]")
+    check_on.click()
     orc = driver.find_element_by_id("ocr")
-    send_message(chat_id, text='orc = driver.find_element_by_id("ocr")')
     orc.click()
-    try:
-        element_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
-        if element_.is_displayed():
-            return 222 
-    except NoSuchElementException:
-        pass
-    send_message(chat_id, text='if element_.is_displayed():')
     found1 = False
     while not found1:
         try:
             element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
             if element_.is_displayed():
-                if element_.is_displayed():
-                    return element_.text
+                print(element_.text)
                 found1 = True
         except NoSuchElementException:
-            try:
-                element_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
-                if element_.is_displayed():
-                    if element_.is_displayed():
-                        return 111
-                    found1 = True
-            except NoSuchElementException:
-                found1 = False
-    send_message(chat_id, text="while not found1")
-    #delete file
+            found1 = False
     os.remove(filename)
     send_message(chat_id, text="-Selenium")
 #-Selenium
