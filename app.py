@@ -318,7 +318,7 @@ def index():
                 elif text_ocr == 222:
                     send_message(chat_id, text="Ошибка распознования. Попробуйте ещё раз!")
                 elif text_ocr == 333:
-                    send_message(chat_id, text="Технические неполадки. Обратитесь к отцу бота!")
+                    send_message(chat_id, text="Технические неполадки. Обратитесь к отцу бота Lil Dojd - https://vk.com/misterlil!")
                 else:
                     send_message(chat_id, text="Вот что у нас получилось:")
                     send_message(chat_id, text=my_string)
