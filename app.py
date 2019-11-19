@@ -246,7 +246,6 @@ def cms(wel):
 #Selenium
 def get_ocr(url):
     chat_id=676318616
-    send_message(chat_id, text="download file")
     stop_seleium=False
     #download file
     filename = url.split("/")[-1]
@@ -258,7 +257,6 @@ def get_ocr(url):
         shutil.copyfileobj(response.raw, out_file)
     del response
     #selenium
-    send_message(chat_id, text="selenium")
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--headless")
@@ -266,6 +264,7 @@ def get_ocr(url):
     chrome_options.add_argument("--no-sandbox")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     url='https://www.newocr.com/'
+    send_message(chat_id, text="url='https://www.newocr.com/'")
     found2 = False
     while not found2:
         try:
@@ -276,7 +275,9 @@ def get_ocr(url):
         except NoSuchElementException:
             found2 = False
     element = driver.find_element_by_id("userfile")
+    send_message(chat_id, text='element = driver.find_element_by_id("userfile")')
     element.send_keys(os.getcwd() + "/" + filename)
+    send_message(chat_id, text='element.send_keys(os.getcwd() + "/" + filename)')
     preview= driver.find_element_by_id("preview")
     preview.click()
     del_language= driver.find_element_by_xpath("//ul[@class='chosen-choices']/li[@class='search-choice']/a[@class='search-choice-close']")
@@ -290,6 +291,7 @@ def get_ocr(url):
     #check_on = driver.find_element_by_xpath("//form[@id='form-ocr']/div[@class='span10']/p[3]/label[@class='checkbox']/input[2]")
     #check_on.click()
     orc = driver.find_element_by_id("ocr")
+    send_message(chat_id, text='orc = driver.find_element_by_id("ocr")')
     orc.click()
     try:
         element_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
@@ -297,8 +299,8 @@ def get_ocr(url):
             return 222 
     except NoSuchElementException:
         pass
+    send_message(chat_id, text='if element_.is_displayed():')
     found1 = False
-    send_message(chat_id, text="while not found1")
     while not found1:
         try:
             element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
@@ -315,9 +317,10 @@ def get_ocr(url):
                     found1 = True
             except NoSuchElementException:
                 found1 = False
-    send_message(chat_id, text="-Selenium")
+    send_message(chat_id, text="while not found1")
     #delete file
     os.remove(filename)
+    send_message(chat_id, text="-Selenium")
 #-Selenium
 
 #Flask
@@ -363,9 +366,8 @@ def index():
                 try:
                     text_ocr = get_ocr(path_to_download)
                 except BaseException:
-                    text_ocr = "Ошибка распознования. Попробуйте ещё раз!"
+                    text_ocr = "Ошибка сервера. Обратитесь к отцу бота!"
                 my_string=str(text_ocr)
-                send_message(chat_id, text="my_string=str(text_ocr)")
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
                 for k, v in mapping:
                     my_string = my_string.replace(k, v)
