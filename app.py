@@ -321,7 +321,7 @@ def index():
                 if text_ocr == 111:
                     send_message(chat_id, text="Ошибка формата. Конвертируйте фото в png или jpg!")
                 elif text_ocr == 222:
-                    send_message(chat_id, text="Ошибка распознования. Попробуйте ещё раз!")
+                    send_message(chat_id, text="Ошибка распознавания. Попробуйте ещё раз!")
                 elif text_ocr == 333:
                     send_message(chat_id, text="Технические неполадки. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil")
                 else:
