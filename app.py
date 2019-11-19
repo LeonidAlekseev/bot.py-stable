@@ -252,9 +252,9 @@ def get_ocr(url):
     if filetype[-1] != "jpg" and filetype[-1] != "png":
         return 111
     with urllib.request.urlopen(url) as f:
-	    b = io.BytesIO(f.read())
-	    im = Image.open(b)
-	    im.save(str(filename))
+	b = io.BytesIO(f.read())
+	im = Image.open(b)
+	im.save(str(filename))
     text = pytesseract.image_to_string(Image.open(filename))
     return str(text)
     #size of image
@@ -311,6 +311,7 @@ def index():
                 ph= ph.json()
                 photo_path=ph['result']['file_path']
                 path_to_download=URL+str(photo_path)
+		send_message(chat_id, text=path_to_download)
                 text_ocr = get_ocr(path_to_download)
                 my_string=str(text_ocr)
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
