@@ -23,10 +23,13 @@ import shutil
 import os
 from PIL import Image
 import pytesseract
+import io
+import urllib.request
 
 
 app = Flask(__name__)
 sslify = SSLify(app)
+
 
 token = str(os.environ.get("TOKEN"))+"/"
 mongo_login=str(os.environ.get("MONGO_LOGIN"))
@@ -34,6 +37,7 @@ mongo_cluster=str(os.environ.get("MONGO_CLUSTER"))
 mongo_collection=str(os.environ.get("MONGO_COLLECTION"))
 URL = 'https://api.telegram.org/bot'+token
 pytesseract.pytesseract.tesseract_cmd = '/app/vendor/tesseract-ocr/bin/tesseract'
+
 
 def send_message(chat_id, text='Какой-то текст.'):
     url = URL + 'sendMessage'
@@ -247,10 +251,10 @@ def get_ocr(url):
     filetype = filename.split('.')
     if filetype[-1] != "jpg" and filetype[-1] != "png":
         return 111
-    response = requests.get(url, stream=True)
-    with open(str(filename), 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    del response
+    with urllib.request.urlopen(url) as f:
+	    b = io.BytesIO(f.read())
+	    im = Image.open(b)
+	    im.save(str(filename))
     text = pytesseract.image_to_string(Image.open(filename))
     return str(text)
     #size of image
