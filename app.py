@@ -260,10 +260,6 @@ def get_ocr(url):
     new_size = tuple(4*x for x in img.size)
     img = img.resize(new_size, Image.ANTIALIAS)
     img.save("4x"+filename)
-    col = Image.open("4x"+filename)
-    gray = col.convert('L')
-    bw = gray.point(lambda x: 0 if x<160 else 255, '1')
-    bw.save("4x"+filename)
     #pytesseract
     text = pytesseract.image_to_string(Image.open("4x"+filename))
     if text != '':
@@ -318,7 +314,7 @@ def index():
                 except BaseException:
                     text_ocr = 333
                 my_string=str(text_ocr)
-                mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
+                mapping = [("“", "\x22"), ("‘", "\x22"), ("\x27", "\x22"), ("\x22\x22", "\x22")]
                 for k, v in mapping:
                     my_string = my_string.replace(k, v)
                 if text_ocr == 111:
