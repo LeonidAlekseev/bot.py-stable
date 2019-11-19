@@ -18,14 +18,11 @@ from pymongo import MongoClient
 import datetime
 import math
 import time
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from webdriver_manager.chrome import ChromeDriverManager
 import codecs
 import shutil
 import os
+from PIL import Image
+import pytesseract
 
 
 app = Flask(__name__)
@@ -243,85 +240,34 @@ def cms(wel):
     return exit
 #-Cms
 
-#Selenium
+#OCR
 def get_ocr(url):
-    chat_id=676318616
-    stop_seleium=False
     #download file
     filename = url.split("/")[-1]
-    filetype = filename.split('.') 
+    filetype = filename.split('.')
     if filetype[-1] != "jpg" and filetype[-1] != "png":
         return 111
     response = requests.get(url, stream=True)
     with open(str(filename), 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
     del response
-    #selenium
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    url='https://www.newocr.com/'
-    found2 = False
-    while not found2:
-        try:
-            driver.get(url)
-            element_ = driver.find_element_by_id("userfile")
-            if element_.is_displayed():
-                found2 = True
-        except NoSuchElementException:
-            found2 = False
-    element = driver.find_element_by_id("userfile")
-    element.send_keys(os.getcwd() + "/" + filename)
-    preview= driver.find_element_by_id("preview")
-    preview.click()
-    send_message(chat_id, text='preview.click()')
-    del_language= driver.find_element_by_xpath("//ul[@class='chosen-choices']/li[@class='search-choice']/a[@class='search-choice-close']")
-    del_language.click()
-    send_message(chat_id, text='del_language.click()')
-    search_language= driver.find_element_by_xpath("//div[@class='chosen-container chosen-container-multi']/ul[@class='chosen-choices']")
-    search_language.click()
-    send_message(chat_id, text='search_language.click()')
-    input_language = driver.find_element_by_xpath("//ul[@class='chosen-choices']/li[@class='search-field']/input[@class='default']")
-    input_language.click()
-    input_language.send_keys('English')
-    input_language.send_keys(Keys.ENTER)
-    send_message(chat_id, text='input_language.send_keys(Keys.ENTER)')
-    #check_on = driver.find_element_by_xpath("//form[@id='form-ocr']/div[@class='span10']/p[3]/label[@class='checkbox']/input[2]")
-    #check_on.click()
-    orc = driver.find_element_by_id("ocr")
-    send_message(chat_id, text='orc = driver.find_element_by_id("ocr")')
-    orc.click()
-    try:
-        element_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
-        if element_.is_displayed():
-            return 222
-    except NoSuchElementException:
-        pass
-    send_message(chat_id, text='if element_.is_displayed():')
-    found1 = False
-    while not found1:
-        try:
-            element_ = driver.find_element_by_xpath("//div[@id='result-container']/div[@class='span19']/textarea[@id='ocr-result']")
-            if element_.is_displayed():
-                if element_.is_displayed():
-                    return element_.text
-                found1 = True
-        except NoSuchElementException:
-            try:
-                element_ = driver.find_element_by_xpath("//div[@class='span19']/div[@class='alert alert-error']")
-                if element_.is_displayed():
-                    if element_.is_displayed():
-                        return 111
-                    found1 = True
-            except NoSuchElementException:
-                found1 = False
-    send_message(chat_id, text="while not found1")
+    #size of image
+    filename="example.jpg"
+    img = Image.open(filename)
+    new_size = tuple(4*x for x in img.size)
+    img = img.resize(new_size, Image.ANTIALIAS)
+    img.save("4x"+filename)
+    #pytesseract
+    pytesseract.pytesseract.tesseract_cmd = '/app/vendor/tesseract-ocr/bin/tesseract'
+    text = pytesseract.image_to_string(Image.open("4x"+filename))
+    if text != '':
+        return text
+    else:
+        return 222
     #delete file
     os.remove(filename)
-#-Selenium
+    os.remove("4x"+filename)
+#-OCR
 
 #Flask
 @app.route('/', methods=['POST', 'GET'])
@@ -339,8 +285,8 @@ def index():
             photo_id=r['message']['photo'][-1]['file_id']
         except BaseException:
             pass
-        user_first_name='0' 
-        user_last_name='0' 
+        user_first_name='0'
+        user_last_name='0'
         try:
             user_first_name = r['message']['chat']['first_name']
         except BaseException:
@@ -364,7 +310,7 @@ def index():
                 try:
                     text_ocr = get_ocr(path_to_download)
                 except BaseException:
-                    text_ocr = "Технические неполадки. Распознование временно не работает!"
+                    text_ocr = 333
                 my_string=str(text_ocr)
                 mapping = [("“'", "\x22"), ("“\x22", "\x22"), ("“'", "\x22"), ("“‘", "\x22"), ("\x22'", "\x22"), ("\x22“", "\x22"), ("\x22‘" , "\x22"), ("''", "\x22"), ("'‘", "\x22"), ("'\x22", "\x22"), ("'“", "\x22"), ("‘'", "\x22"), ("‘‘", "\x22"), ("‘\x22", "\x22"), ("‘“", "\x22"), ("‘", "\x22"), ("'", "\x22"), ("\x22", "\x22"), ("“", "\x22"), ("\x22\x22", "\x22")]
                 for k, v in mapping:
@@ -373,6 +319,8 @@ def index():
                     send_message(chat_id, text="Ошибка формата. Конвертируйте фото в png или jpg!")
                 elif text_ocr == 222:
                     send_message(chat_id, text="Ошибка распознования. Попробуйте ещё раз!")
+                elif text_ocr == 333:
+                    send_message(chat_id, text="Технические неполадки. Обратитесь к отцу бота!")
                 else:
                     send_message(chat_id, text="Вот что у нас получилось:")
                     send_message(chat_id, text=my_string)
