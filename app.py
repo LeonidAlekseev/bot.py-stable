@@ -33,7 +33,7 @@ mongo_login=str(os.environ.get("MONGO_LOGIN"))
 mongo_cluster=str(os.environ.get("MONGO_CLUSTER"))
 mongo_collection=str(os.environ.get("MONGO_COLLECTION"))
 URL = 'https://api.telegram.org/bot'+token
-
+pytesseract.pytesseract.tesseract_cmd = '/app/vendor/tesseract-ocr/bin/tesseract'
 
 def send_message(chat_id, text='Какой-то текст.'):
     url = URL + 'sendMessage'
@@ -258,7 +258,6 @@ def get_ocr(url):
     img = img.resize(new_size, Image.ANTIALIAS)
     img.save("4x"+filename)
     #pytesseract
-    pytesseract.pytesseract.tesseract_cmd = '/app/vendor/tesseract-ocr/bin/tesseract'
     text = pytesseract.image_to_string(Image.open("4x"+filename))
     if text != '':
         return text
