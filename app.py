@@ -264,7 +264,6 @@ def get_ocr(url):
     chrome_options.add_argument("--no-sandbox")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     url='https://www.newocr.com/'
-    send_message(chat_id, text="url='https://www.newocr.com/'")
     found2 = False
     while not found2:
         try:
@@ -275,19 +274,21 @@ def get_ocr(url):
         except NoSuchElementException:
             found2 = False
     element = driver.find_element_by_id("userfile")
-    send_message(chat_id, text='element = driver.find_element_by_id("userfile")')
     element.send_keys(os.getcwd() + "/" + filename)
-    send_message(chat_id, text='element.send_keys(os.getcwd() + "/" + filename)')
     preview= driver.find_element_by_id("preview")
     preview.click()
+    send_message(chat_id, text='preview.click()')
     del_language= driver.find_element_by_xpath("//ul[@class='chosen-choices']/li[@class='search-choice']/a[@class='search-choice-close']")
     del_language.click()
+    send_message(chat_id, text='del_language.click()')
     search_language= driver.find_element_by_xpath("//div[@class='chosen-container chosen-container-multi']/ul[@class='chosen-choices']")
     search_language.click()
+    send_message(chat_id, text='search_language.click()')
     input_language = driver.find_element_by_xpath("//ul[@class='chosen-choices']/li[@class='search-field']/input[@class='default']")
     input_language.click()
     input_language.send_keys('English')
     input_language.send_keys(Keys.ENTER)
+    send_message(chat_id, text='input_language.send_keys(Keys.ENTER)')
     #check_on = driver.find_element_by_xpath("//form[@id='form-ocr']/div[@class='span10']/p[3]/label[@class='checkbox']/input[2]")
     #check_on.click()
     orc = driver.find_element_by_id("ocr")
@@ -357,11 +358,9 @@ def index():
             if photo_id != "0":
                 send_message(chat_id, text="Подождите, пока фото обрабатывается.")
                 photo=URL+"getFile?file_id="+str(photo_id)
-                send_message(chat_id, text=URL+"getFile?file_id="+str(photo_id))
                 ph = requests.get(photo)
                 ph= ph.json()
                 photo_path=ph['result']['file_path']
-                send_message(chat_id, text=URL+str(photo_path))
                 path_to_download=URL+str(photo_path)
                 try:
                     text_ocr = get_ocr(path_to_download)
