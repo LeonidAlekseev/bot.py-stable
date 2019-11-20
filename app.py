@@ -268,12 +268,21 @@ def cms(wel):
             #sutexit=transtlate(nameerrexit)
             #------------------
             lines = open('help.txt').readlines()
-            sutexit=transtlate(lines)
-            if "BlockInfinityErrore" in lines:
-                preexit=lines[0:-1]
-            else:
-                preexit=lines[6:-1]
+            open('helpfull.txt', 'w').writelines(lines)
+            open('help.txt', 'w').writelines(lines[6:-1])
+            preexit=open('help.txt').read()
+            nameerrexit=str(open('help.txt').readlines())
             lineerrexit=w_line(str(preexit))
+            sutexit=transtlate(nameerrexit)
+            if transtlate(nameerrexit) == "BlockInfinityErrore":
+                preexit=open('helpfull.txt').read()
+            #lines = open('help.txt').readlines()
+            #sutexit=transtlate(lines)
+            #if "BlockInfinityErrore" in lines:
+            #    preexit=lines[0:-1]
+            #else:
+            #    preexit=lines[6:-1]
+            #lineerrexit=w_line(str(preexit))
             #------------------
             exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки: линия '+lineerrexit
         else:
