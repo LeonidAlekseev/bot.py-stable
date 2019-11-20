@@ -45,6 +45,22 @@ def send_message(chat_id, text='Какой-то текст.'):
     r = requests.post(url, json=answer)
     return r.json()
 
+#Line search
+def w_line(text):
+    c=text.count("line")
+    n=0
+    while n<c:
+        n=n+1
+        ret=text.find("line") 
+        text=text[ret+5:] 
+    stop=text.find(" ") 
+    if stop == -1: 
+        line_n=text[0:]
+    else:
+        line_n=text[0:stop]
+    return line_n 
+#-Line search
+
 #Definitions
 def transtlate(errname):
     if "BaseException" in errname:
@@ -235,10 +251,10 @@ def cms(wel):
             open('help.txt', 'w').writelines(lines[3:-1])
             preexit=open('help.txt').read()
             nameerrexit=str(open('help.txt').readlines())
-            lineerrexit=open('help.txt').readlines()[0].split(',')[1]
-            lineerrexit=lineerrexit.replace("line", "линия")
+            lineerrexit=w_line(str(preexit)) #open('help.txt').readlines()[0].split(',')[1]
+            #lineerrexit=lineerrexit.replace("line", "линия")
             sutexit=transtlate(nameerrexit)
-            exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки:'+lineerrexit
+            exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки: линия '+lineerrexit
         else:
             exit=open('help.txt', 'r').read()
     return exit
