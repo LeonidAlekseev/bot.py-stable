@@ -248,7 +248,9 @@ def cms(wel):
                     def signal_handler(signum, frame):
                         raise Exception("BlockInfinityErrore")
                     signal.signal(signal.SIGALRM, signal_handler)
-                    long_function_call(wel):
+                    #how much seconds
+                    signal.alarm(10)
+                    long_function_call(wel)
                     #cms_time(wel) 
                     #---------------------------------------
                     #exec(wel)
