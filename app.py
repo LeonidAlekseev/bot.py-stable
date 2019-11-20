@@ -260,6 +260,8 @@ def cms(wel):
             exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки: линия '+lineerrexit
         else:
             exit=open('help.txt', 'r').read()
+            if exit == '' or exit == ' ':
+                exit='В консоль ничего не вывелось! Проверьте, пожалуйста, возможно где-то не хватает print() или return.'
     return exit
 #-Cms
 
