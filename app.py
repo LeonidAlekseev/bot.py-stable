@@ -362,13 +362,16 @@ def index():
                     send_message(chat_id, text=my_string)
                     send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
             elif message != "":
-                try:
-                    result = cms(message)
+                if message == "RESTART-LIL":
+                    result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
+                else:
+                    try:
+                        result = cms(message)
                     #----------------------restart----------------------
                     #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                     #---------------------------------------------------
-                except BaseException:
-                    result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
+                    except BaseException:
+                        result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                 send_message(chat_id, text=result)
         elif message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Сначала введите ключ активации(его можно запросить у Lil Dojd - https://vk.com/misterlil).\n 2) Затем зарегистрируйтесь с паролем.\n\n-Если вы отправляете боту текст(код python), он его выполняет и выводит результат. В случа ошибки бот подскажет по какой причине она возникла.\n-Если вы отправляете боту фото, он распознает текст(код python) и отправлит его в сообщении. После этого вы можете внести поправки и отправить код(программу) боту для выполения.")
