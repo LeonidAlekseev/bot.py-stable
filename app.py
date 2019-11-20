@@ -248,7 +248,7 @@ def cms(wel):
                         raise Exception("BlockInfinityErrore")
                     signal.signal(signal.SIGALRM, signal_handler)
                     #how much seconds
-                    signal.alarm(10)
+                    signal.alarm(3)
                     long_function_call(wel)
                 except Exception:
                     print(traceback.format_exc())
@@ -363,9 +363,9 @@ def index():
                     send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
             elif message != "":
                 try:
-                    #result = cms(message)
+                    result = cms(message)
                     #----------------------restart----------------------
-                    result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
+                    #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                     #---------------------------------------------------
                 except BaseException:
                     result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
