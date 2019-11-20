@@ -64,8 +64,6 @@ def w_line(text):
 
 #Definitions
 def transtlate(errname):
-    if "ModuleNotFoundError" in errname:
-        sut="не импортирован вызываемый модуль"
     if "BaseException" in errname:
         sut="базовое исключение, от которого берут начало все остальные"
     elif "SystemExit" in errname:
@@ -168,6 +166,8 @@ def transtlate(errname):
         sut="исключение, связанное с переводом unicode"
     elif "Warning" in errname:
         sut="предупреждение"
+    elif "ModuleNotFoundError" in errname:
+        sut="не импортирован вызываемый модуль"
     else:
         sut="ошибка не опознана"
     return sut
