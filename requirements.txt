@@ -32,5 +32,4 @@ sqlparse==0.3.0
 telebot==0.0.3
 webdriver-manager==2.2.0
 webencodings==0.5.1
-arrow
-tabulate
+
