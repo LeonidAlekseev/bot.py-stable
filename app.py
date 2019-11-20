@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
+from tabulate import tabulate
 from flask import Flask
 from flask import request
 from flask import jsonify
