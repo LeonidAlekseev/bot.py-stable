@@ -363,8 +363,10 @@ def index():
                     send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
             elif message != "":
                 try:
-                    result = cms(message)
-                    #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
+                    #result = cms(message)
+                    #----------------------restart----------------------
+                    result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
+                    #---------------------------------------------------
                 except BaseException:
                     result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                 send_message(chat_id, text=result)
