@@ -265,11 +265,12 @@ def cms(wel):
             open('help.txt', 'w').writelines(lines[5:-1])
             preexit=open('help.txt').read()
             nameerrexit=str(open('help.txt').readlines())
-            lineerrexit=w_line(str(preexit))
+            lineerrexit="линия" + str(w_line(str(preexit)))
             sutexit=transtlate(nameerrexit)
             if "BlockInfinityErrore" in nameerrexit:
                 preexit=open('helpfull.txt').read()
-            exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки: линия '+lineerrexit
+                lineerrexit="неопределено"
+            exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки: '+lineerrexit
         else:
             exit=open('help.txt', 'r').read()
             if exit == '' or exit == ' ':
