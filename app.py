@@ -58,11 +58,8 @@ def w_line(text):
         line_n=text[0:]
     else:
         line_n=text[0:stop]
-    try:
-        line_n.replace(',','')
-    except BaseException:
-        pass
-    return line_n 
+    line=line_n.replace(',','')
+    return line
 #-Line search
 
 #Definitions
