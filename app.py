@@ -26,7 +26,7 @@ from PIL import Image
 import pytesseract
 import io
 import urllib.request
-
+import signal
 
 app = Flask(__name__)
 sslify = SSLify(app)
@@ -235,12 +235,31 @@ def check_pass(user):
 #-Auth
 
 #Cms
+
+
+#---------------------------------------
+def cms_time(inp):
+    def long_function_call(inp):
+        exec(inp)
+    def signal_handler(signum, frame):
+        raise Exception("Time!")
+    signal.signal(signal.SIGALRM, signal_handler)
+    #how much seconds
+    signal.alarm(3)
+    try:
+        long_function_call(inp)
+    except Exception:
+        return "Ошибка исполнения. Время обработки кода превысило допустимое значение!"
+#---------------------------------------
+
+
+
 def cms(wel):
     with open('help.txt', 'w') as f:
         with redirect_stdout(f):
             if "while True" not in wel and "input(" not in wel:
                 try:
-                    exec(wel)
+                    cms_time(wel) #exec(wel)
                 except Exception:
                     print(traceback.format_exc())
             else:
