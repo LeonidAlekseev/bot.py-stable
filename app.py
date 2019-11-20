@@ -66,7 +66,7 @@ def w_line(text):
 #Definitions
 def transtlate(errname):
     if "BlockInfinityErrore" in errname:
-        sut="базовое исключение, от которого берут начало все остальные"
+        sut="время обработки операции превысило допустимое значение (бесконечные циклы запрещены)"
     elif "BaseException" in errname:
         sut="базовое исключение, от которого берут начало все остальные"
     elif "SystemExit" in errname:
@@ -242,7 +242,6 @@ def cms(wel):
         with redirect_stdout(f):
             if "while True" not in wel and "input(" not in wel:
                 try:
-                    #---------------------------------------
                     def long_function_call(inp):
                         exec(inp)
                     def signal_handler(signum, frame):
@@ -251,9 +250,6 @@ def cms(wel):
                     #how much seconds
                     signal.alarm(10)
                     long_function_call(wel)
-                    #cms_time(wel) 
-                    #---------------------------------------
-                    #exec(wel)
                 except Exception:
                     print(traceback.format_exc())
             else:
@@ -265,11 +261,10 @@ def cms(wel):
         exit=f.read()
         if 'Traceback' in exit:
             lines = open('help.txt').readlines()
-            open('help.txt', 'w').writelines(lines[3:-1])
+            open('help.txt', 'w').writelines(lines[6:-1])
             preexit=open('help.txt').read()
             nameerrexit=str(open('help.txt').readlines())
-            lineerrexit=w_line(str(preexit)) #open('help.txt').readlines()[0].split(',')[1]
-            #lineerrexit=lineerrexit.replace("line", "линия")
+            lineerrexit=w_line(str(preexit))
             sutexit=transtlate(nameerrexit)
             exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки: линия '+lineerrexit
         else:
