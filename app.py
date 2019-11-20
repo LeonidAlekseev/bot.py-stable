@@ -58,11 +58,17 @@ def w_line(text):
         line_n=text[0:]
     else:
         line_n=text[0:stop]
+    try:
+        line_n.replace(',','')
+    except BaseException:
+        pass
     return line_n 
 #-Line search
 
 #Definitions
 def transtlate(errname):
+    if "ModuleNotFoundError in errname:
+        sut="не импортирован вызываемый модуль"
     if "BaseException" in errname:
         sut="базовое исключение, от которого берут начало все остальные"
     elif "SystemExit" in errname:
