@@ -238,6 +238,7 @@ def check_pass(user):
 
 #Cms
 def cms(wel):
+    lineerrexit=""
     with open('help.txt', 'w') as f:
         with redirect_stdout(f):
             #if "while True" not in wel and "input(" not in wel:
@@ -283,7 +284,7 @@ def cms(wel):
             exit=open('help.txt', 'r').read()
             if exit == '' or exit == ' ':
                 exit='В консоль ничего не вывелось! Проверьте, пожалуйста, возможно где-то не хватает print() или return.'
-    return exit#, lined_wel
+    return exit, lineerrexit
 #-Cms
 
 #OCR
@@ -378,7 +379,7 @@ def index():
                         #cms = cms(message)
                         #result = cms[0]
                         #lined_text = cms[1]
-                        result = cms(message) 
+                        result = cms(message)[0]
                     #----------------------restart----------------------
                     #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                     #---------------------------------------------------
@@ -390,9 +391,11 @@ def index():
                     if "РАСШИФРОВКА" in result and "BlockInfinityErrore" not in result:
                         #--------
                         s=message.split("\n") 
+                        line_sec=cms(message)[1]
                         for i in range(len(s)):
-                            s[i]=f"{i+1} | " + s[i] 
+                            s[i]='{:<2}'.format(i+1) + " | " + s[i] 
                         send_message(chat_id, text=str("\n".join(s)))
+                        send_message(chat_id, text=str(line_sec))
                 except BaseException:
                     pass
                 #send_message(chat_id, text=lined_text)
