@@ -261,11 +261,11 @@ def cms(wel):
         exit=f.read()
         if 'Traceback' in exit:
             lines = open('help.txt').readlines()
-            open('helpfull.txt', 'w').writelines(lines)
+            open('helpfull.txt', 'w').writelines(lines[-1:-17:-1])
             open('help.txt', 'w').writelines(lines[5:-1])
             preexit=open('help.txt').read()
             nameerrexit=str(open('help.txt').readlines())
-            lineerrexit="линия" + str(w_line(str(preexit)))
+            lineerrexit="линия " + str(w_line(str(preexit)))
             sutexit=transtlate(nameerrexit)
             if "BlockInfinityErrore" in nameerrexit:
                 preexit=open('helpfull.txt').read()
