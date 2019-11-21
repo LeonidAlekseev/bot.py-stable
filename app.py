@@ -384,7 +384,7 @@ def index():
                         line_sec=int(line_sec.split(" ")[-1])
                         for i in range(len(s)):
                             if i == line_sec:
-                                s[i] = s[i] + " \u26A0"
+                                s[i-1] = s[i-1] + " \u26A0"
                         send_message(chat_id, text=str("\n".join(s)))
                 except BaseException:
                     pass
