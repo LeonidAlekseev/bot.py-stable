@@ -386,7 +386,6 @@ def index():
                         result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                         #lined_text = ""
                 send_message(chat_id, text=result)
-                send_message(chat_id, text=str(type(message)))
                 try:
                     if "РАСШИФРОВКА" in result and "BlockInfinityErrore" not in result:
                         #--------
