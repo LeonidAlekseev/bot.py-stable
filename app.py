@@ -46,12 +46,6 @@ def send_message(chat_id, text='Какой-то текст.'):
     r = requests.post(url, json=answer)
     return r.json()
 
-def send_message_mark(chat_id, text='Какой-то текст.'):
-    url = URL + 'sendMessage'
-    answer = {'chat_id': chat_id, 'text': text, 'parse_mode': 'markdown'}
-    r = requests.post(url, json=answer)
-    return r.json()
-
 #Line search
 def w_line(text):
     c=text.count("line")
@@ -390,8 +384,8 @@ def index():
                         line_sec=int(line_sec.split(" ")[-1])
                         for i in range(len(s)):
                             if i == line_sec:
-                                s[i]="**" + s[i] + "** \u26A0"
-                        send_message_mark(chat_id, text=str("\n".join(s)))
+                                s[i] = s[i] + " \u26A0"
+                        send_message(chat_id, text=str("\n".join(s)))
                 except BaseException:
                     pass
                 #send_message(chat_id, text=lined_text)
