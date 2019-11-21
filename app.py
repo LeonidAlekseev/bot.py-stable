@@ -46,6 +46,12 @@ def send_message(chat_id, text='Какой-то текст.'):
     r = requests.post(url, json=answer)
     return r.json()
 
+def send_message_mark(chat_id, text='Какой-то текст.'):
+    url = URL + 'sendMessage'
+    answer = {'chat_id': chat_id, 'text': text, 'parse_mode': 'markdown'}
+    r = requests.post(url, json=answer)
+    return r.json()
+
 #Line search
 def w_line(text):
     c=text.count("line")
@@ -270,15 +276,9 @@ def cms(wel):
             nameerrexit=str(open('help.txt').readlines())
             lineerrexit="линия " + str(w_line(str(preexit)))
             sutexit=transtlate(nameerrexit)
-            #----------------
-            #pre_wel=wel.split("\n") 
-            #for i in range(len(pre_wel)):
-            #    pre_wel[i]=f"{i+1} | " + pre_wel[i] 
-            #lined_wel="\n".join(pre_wel))
             if "BlockInfinityErrore" in nameerrexit:
                 preexit=open('helpfull.txt').read()
                 lineerrexit="неопределено"
-                #lined_wel=""
             exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки: '+lineerrexit
         else:
             exit=open('help.txt', 'r').read()
@@ -376,27 +376,22 @@ def index():
                     result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                 else:
                     try:
-                        #cms = cms(message)
-                        #result = cms[0]
-                        #lined_text = cms[1]
                         result = cms(message)[0]
-                    #----------------------restart----------------------
-                    #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
-                    #---------------------------------------------------
+                        #----------------------restart----------------------
+                        #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
+                        #---------------------------------------------------
                     except BaseException:
                         result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
-                        #lined_text = ""
                 send_message(chat_id, text=result)
                 try:
                     if "РАСШИФРОВКА" in result and "BlockInfinityErrore" not in result:
-                        #--------
                         s=message.split("\n") 
                         line_sec=cms(message)[1]
                         line_sec=int(line_sec.split(" ")[-1])
                         for i in range(len(s)):
                             if i == line_sec:
                                 s[i]="**" + s[i] + "** \u26A0"
-                        send_message(chat_id, text=str("\n".join(s)))
+                        send_message_mark(chat_id, text=str("\n".join(s)))
                 except BaseException:
                     pass
                 #send_message(chat_id, text=lined_text)
