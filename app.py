@@ -240,7 +240,8 @@ def check_pass(user):
 def cms(wel):
     with open('help.txt', 'w') as f:
         with redirect_stdout(f):
-            if "while True" not in wel and "input(" not in wel:
+            #if "while True" not in wel and "input(" not in wel:
+            if "input(" not in wel:
                 try:
                     def long_function_call(inp):
                         exec(inp)
@@ -253,15 +254,15 @@ def cms(wel):
                 except Exception:
                     print(traceback.format_exc())
             else:
-                if "while True" in wel:
-                    print("Бесконечный цикл невозможен")
+                #if "while True" in wel:
+                #    print("Бесконечный цикл невозможен")
                 if "input(" in wel:
                     print("Ввод невозможен")
     with open('help.txt', 'r') as f:
         exit=f.read()
         if 'Traceback' in exit:
             lines = open('help.txt').readlines()
-            open('helpfull.txt', 'w').writelines(lines[-1:-17:-1])
+            open('helpfull.txt', 'w').writelines(lines[-21:])
             open('help.txt', 'w').writelines(lines[5:-1])
             preexit=open('help.txt').read()
             nameerrexit=str(open('help.txt').readlines())
