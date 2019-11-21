@@ -270,20 +270,20 @@ def cms(wel):
             lineerrexit="линия " + str(w_line(str(preexit)))
             sutexit=transtlate(nameerrexit)
             #----------------
-            pre_wel=wel.split("\n") 
-            for i in range(len(pre_wel)):
-                pre_wel[i]=f"{i+1} | " + pre_wel[i] 
-            lined_wel="\n".join(pre_wel))
+            #pre_wel=wel.split("\n") 
+            #for i in range(len(pre_wel)):
+            #    pre_wel[i]=f"{i+1} | " + pre_wel[i] 
+            #lined_wel="\n".join(pre_wel))
             if "BlockInfinityErrore" in nameerrexit:
                 preexit=open('helpfull.txt').read()
                 lineerrexit="неопределено"
-                lined_wel=""
+                #lined_wel=""
             exit='\u26A0 ОШИБКА \u26A0 \n'+preexit+'\n\uD83D\uDE3B РАСШИФРОВКА \uD83D\uDE3B \n  Суть ошибки: '+sutexit+'\n  Место ошибки: '+lineerrexit
         else:
             exit=open('help.txt', 'r').read()
             if exit == '' or exit == ' ':
                 exit='В консоль ничего не вывелось! Проверьте, пожалуйста, возможно где-то не хватает print() или return.'
-    return exit, lined_wel
+    return exit#, lined_wel
 #-Cms
 
 #OCR
@@ -375,17 +375,18 @@ def index():
                     result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                 else:
                     try:
-                        cms = cms(message)
-                        result = cms[0]
-                        lined_text = cms[1]
+                        #cms = cms(message)
+                        #result = cms[0]
+                        #lined_text = cms[1]
+                        result = cms(message)
                     #----------------------restart----------------------
                     #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                     #---------------------------------------------------
                     except BaseException:
                         result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
-                        lined_text = ""
+                        #lined_text = ""
                 send_message(chat_id, text=result)
-                send_message(chat_id, text=lined_text)
+                #send_message(chat_id, text=lined_text)
         elif message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Сначала введите ключ активации(его можно запросить у Lil Dojd - https://vk.com/misterlil).\n 2) Затем зарегистрируйтесь с паролем.\n\n-Если вы отправляете боту текст(код python), он его выполняет и выводит результат. В случа ошибки бот подскажет по какой причине она возникла.\n-Если вы отправляете боту фото, он распознает текст(код python) и отправлит его в сообщении. После этого вы можете внести поправки и отправить код(программу) боту для выполения.")
         elif message == key() and check_key(user)=='no':
