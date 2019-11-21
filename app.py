@@ -262,8 +262,8 @@ def cms(wel):
         exit=f.read()
         if 'Traceback' in exit:
             lines = open('help.txt').readlines()
-            open('helpfull.txt', 'w').writelines(lines[-20:-7])
-            open('helpfull.txt', 'a').writelines(lines[-1:])
+            open('helpfull.txt', 'w').writelines(lines[-20:-8])
+            open('helpfull.txt', 'a').writelines(lines[-2])
             open('help.txt', 'w').writelines(lines[5:-1])
             preexit=open('help.txt').read()
             nameerrexit=str(open('help.txt').readlines())
