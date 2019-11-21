@@ -378,7 +378,7 @@ def index():
                         #cms = cms(message)
                         #result = cms[0]
                         #lined_text = cms[1]
-                        result = cms(message)
+                        result = cms(message) 
                     #----------------------restart----------------------
                     #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                     #---------------------------------------------------
@@ -386,6 +386,16 @@ def index():
                         result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                         #lined_text = ""
                 send_message(chat_id, text=result)
+                send_message(chat_id, text=str(type(message)))
+                try:
+                    if "РАСШИФРОВКА" in result and "BlockInfinityErrore" not in result:
+                        #--------
+                        s=message.split("\n") 
+                        for i in range(len(s)):
+                            s[i]=f"{i+1} | " + s[i] 
+                        send_message(chat_id, text=str("\n".join(s)))
+                except BaseException:
+                    pass
                 #send_message(chat_id, text=lined_text)
         elif message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Сначала введите ключ активации(его можно запросить у Lil Dojd - https://vk.com/misterlil).\n 2) Затем зарегистрируйтесь с паролем.\n\n-Если вы отправляете боту текст(код python), он его выполняет и выводит результат. В случа ошибки бот подскажет по какой причине она возникла.\n-Если вы отправляете боту фото, он распознает текст(код python) и отправлит его в сообщении. После этого вы можете внести поправки и отправить код(программу) боту для выполения.")
