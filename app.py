@@ -392,10 +392,10 @@ def index():
                         #--------
                         s=message.split("\n") 
                         line_sec=cms(message)[1]
-                        line_sec=int(line_sec.split("")[-1])
+                        line_sec=int(line_sec.split(" ")[-1])
                         for i in range(len(s)):
                             if i == line_sec:
-                                s[i]=s[i] + " \u26A0"
+                                s[i]="**" + s[i] + "** \u26A0"
                         send_message(chat_id, text=str("\n".join(s)))
                 except BaseException:
                     pass
