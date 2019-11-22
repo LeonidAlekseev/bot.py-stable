@@ -201,7 +201,7 @@ def new_user(user):
 #-MongoDB
 #Auth
 def key():
-    now = datetime.datetime.now()
+    global now
     key = str(math.fabs(math.sin(now.minute+now.day)))[2:7]
     return key+'-LIL'
 def add_key(user):
@@ -344,7 +344,7 @@ def index():
                     send_message(chat_id, text=my_string)
                     send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
             elif message != "":
-                now = datetime.datetime.now()
+                global now
                 if now.hour+3 == 4 and 0<now.minute<5:
                     result = "Бот перезагружен. Приятной работы!"
                 else:
