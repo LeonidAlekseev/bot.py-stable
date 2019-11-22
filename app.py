@@ -346,11 +346,11 @@ def index():
                 else:
                     try:
                         if "input(" in message:
-                            result = "Ошибка исполнения. Невозможно использовать input!"
+                            result = "Ошибка исполнения. Нельзя использовать input!"
                         elif "\nreturn" in message:
                             result = "Ошибка исполнения. Вы забыли сделать отступ перед replace!"
-                        elif message.find("return") == 0 or message.find("return")>message.find("def"):
-                            result = "Ошибка исполнения. Перед return должна быть задана функция!"
+                        elif message.find("return") == 0 or message.find("return")<message.find("def"):
+                            result = "Ошибка исполнения. Вместе с return должна быть задана функция!"
                         else:
                             result = cms(message)[0]
                     except BaseException:
