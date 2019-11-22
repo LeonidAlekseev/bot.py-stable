@@ -375,7 +375,7 @@ def index():
                         result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                 send_message(chat_id, text=result)
                 try:
-                    if "РАСШИФРОВКА" in result and "BlockInfinityErrore" not in result:
+                    if "ПОЯСНЕНИЕ" in result and "BlockInfinityErrore" not in result:
                         s=message.split("\n") 
                         line_sec=cms(message)[1]
                         line_sec=int(line_sec.split(" ")[-1])
