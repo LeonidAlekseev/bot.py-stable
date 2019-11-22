@@ -376,6 +376,7 @@ def index():
                 send_message(chat_id, text=result)
                 try:
                     if "ПОЯСНЕНИЕ" in result and "BlockInfinityErrore" not in result:
+                        message=message+"\n"
                         s=message.split("\n") 
                         line_sec=cms(message)[1]
                         line_sec=int(line_sec.split(" ")[-1])
