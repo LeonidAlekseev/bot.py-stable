@@ -348,9 +348,9 @@ def index():
                     result = "Бот перезагружен. Приятной работы!"
                 else:
                     try:
-                        result = cms(message)[0]
+                        #result = cms(message)[0]
                         #----------------------restart----------------------
-                        #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
+                        result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                         #---------------------------------------------------
                     except BaseException:
                         result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
