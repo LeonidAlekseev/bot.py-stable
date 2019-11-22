@@ -224,21 +224,17 @@ def cms(wel):
     lineerrexit="-100000"
     with open('help.txt', 'w') as f:
         with redirect_stdout(f):
-            if "input(" not in wel:
-                try:
-                    def long_function_call(inp):
-                        exec(inp)
-                    def signal_handler(signum, frame):
-                        raise Exception("BlockInfinityErrore")
-                    signal.signal(signal.SIGALRM, signal_handler)
-                    #how much seconds
-                    signal.alarm(3)
-                    long_function_call(wel)
-                except Exception:
-                    print(traceback.format_exc())
-            else:
-                if "input(" in wel:
-                    print("Ввод невозможен")
+            try:
+                def long_function_call(inp):
+                    exec(inp)
+                def signal_handler(signum, frame):
+                    raise Exception("BlockInfinityErrore")
+                signal.signal(signal.SIGALRM, signal_handler)
+                #how much seconds
+                signal.alarm(3)
+                long_function_call(wel)
+            except Exception:
+                print(traceback.format_exc())
     with open('help.txt', 'r') as f:
         exit=f.read()
         if 'Traceback' in exit:
@@ -349,10 +345,14 @@ def index():
                     result = "Бот перезагружен. Приятной работы!"
                 else:
                     try:
-                        result = cms(message)[0]
-                        #----------------------restart----------------------
-                        #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
-                        #---------------------------------------------------
+                        if "input(" in message:
+                            result = "Ошибка исполнения. Невозможно использовать input!"
+                        elif "\nreturn" in message:
+                            result = "Ошибка исполнения. Вы забыли сделать отступ перед replace!"
+                        elif message.find("return") == 0 or message.find("return")>message.find("def"):
+                            result = "Ошибка исполнения. Перед return должна быть задана функция!"
+                        else:
+                            result = cms(message)[0]
                     except BaseException:
                         result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                 send_message(chat_id, text=result)
