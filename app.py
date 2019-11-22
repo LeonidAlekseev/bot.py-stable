@@ -264,43 +264,28 @@ def cms(wel):
 def get_ocr(url):
     #download file
     filename = url.split("/")[-1]
-    send_message(676318616, text="1")
     filetype = filename.split('.')
-    send_message(676318616, text="2")
     if filetype[-1] != "jpg" and filetype[-1] != "png":
         return 111
-    send_message(676318616, text="3")
     response = requests.get(url, stream=True)
-    send_message(676318616, text="4")
     with open(str(filename), 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
-    send_message(676318616, text="5")
     del response
-    send_message(676318616, text="6")
     #size of image
     img = Image.open(filename)
-    send_message(676318616, text="7")
     new_size = tuple(4*x for x in img.size)
-    send_message(676318616, text="8")
     img = img.resize(new_size, Image.ANTIALIAS)
-    send_message(676318616, text="9")
     img.save("4x"+filename)
-    send_message(676318616, text="10")
     #pytesseract
     text = pytesseract.image_to_string(Image.open("4x"+filename))
-    send_message(676318616, text="11")
     text = text.replace("\n\n","\n")
-    send_message(676318616, text="12")
+    #delete file
+    os.remove(filename)
+    os.remove("4x"+filename)
     if text != '':
         return text
     else:
         return 222
-    send_message(676318616, text="1")
-    #delete file
-    os.remove(filename)
-    send_message(676318616, text="1")
-    os.remove("4x"+filename)
-    send_message(676318616, text="1")
 #-OCR
 #Flask
 @app.route('/', methods=['POST', 'GET'])
