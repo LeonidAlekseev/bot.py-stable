@@ -35,6 +35,7 @@ mongo_cluster=str(os.environ.get("MONGO_CLUSTER"))
 mongo_collection=str(os.environ.get("MONGO_COLLECTION"))
 URL = 'https://api.telegram.org/bot'+token
 pytesseract.pytesseract.tesseract_cmd = '/app/vendor/tesseract-ocr/bin/tesseract'
+now = datetime.datetime.now()
 
 def send_message(chat_id, text='Какой-то текст.'):
     url = URL + 'sendMessage'
