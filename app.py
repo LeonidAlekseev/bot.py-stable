@@ -348,25 +348,22 @@ def index():
                     result = "Бот перезагружен. Приятной работы!"
                 else:
                     try:
-                        #result = cms(message)[0]
+                        result = cms(message)[0]
                         #----------------------restart----------------------
-                        result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
+                        #result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                         #---------------------------------------------------
                     except BaseException:
                         result = "Ошибка сиситемы. Код не может быть выполнен. Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
                 send_message(chat_id, text=result)
-                try:
-                    if "ПОЯСНЕНИЕ" in result and "BlockInfinityErrore" not in result:
-                        message=message+"\n"
-                        s=message.split("\n") 
-                        line_sec=cms(message)[1]
-                        line_sec=int(line_sec.split(" ")[-1])
-                        for i in range(len(s)):
-                            if i == line_sec:
-                                s[i-1] = s[i-1] + " \u26A0"
-                        send_message(chat_id, text=str("\n".join(s)))
-                except BaseException:
-                    pass
+                if "ПОЯСНЕНИЕ" in result and "BlockInfinityErrore" not in result:
+                    message=message+"\n"
+                    s=message.split("\n") 
+                    line_sec=cms(message)[1]
+                    line_sec=int(line_sec.split(" ")[-1])
+                    for i in range(len(s)):
+                        if i == line_sec:
+                            s[i-1] = s[i-1] + " \u26A0"
+                    send_message(chat_id, text=str("\n".join(s)))
         elif message == '/start':
             send_message(chat_id, text="Инструкция:\n 1) Сначала введите ключ активации. Его можно запросить у Lil Dojd - https://vk.com/misterlil.\n 2) Затем зарегистрируйтесь с паролем. Он необходим в случае переноса бота на другой сервис или при глобальном обновлении.")
         elif message == key() and check_key(user)=='no':
