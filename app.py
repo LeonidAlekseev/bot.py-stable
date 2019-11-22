@@ -38,6 +38,7 @@ mongo_cluster=str(os.environ.get("MONGO_CLUSTER"))
 mongo_collection=str(os.environ.get("MONGO_COLLECTION"))
 URL = 'https://api.telegram.org/bot'+token
 pytesseract.pytesseract.tesseract_cmd = '/app/vendor/tesseract-ocr/bin/tesseract'
+now = datetime.datetime.now()
 
 
 def send_message(chat_id, text='Какой-то текст.'):
@@ -213,7 +214,6 @@ def new_user(user):
 
 #Auth
 def key():
-    now = datetime.datetime.now()
     key = str(math.fabs(math.sin(now.minute+now.day)))[2:7]
     return key+'-LIL'
 
@@ -366,8 +366,8 @@ def index():
                     send_message(chat_id, text=my_string)
                     send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
             elif message != "":
-                if message == "RESTART-LIL":
-                    result = "Бот остановлен! Обратитесь к отцу бота! Lil Dojd - https://vk.com/misterlil"
+                if now.hour+3 == 4 and 0<now.minute<5:
+                    result = "Бот перезагружен. Приятной работы!"
                 else:
                     try:
                         result = cms(message)[0]
