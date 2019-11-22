@@ -221,7 +221,7 @@ def check_pass(user):
 #-Auth
 #Cms
 def cms(wel):
-    lineerrexit=""
+    lineerrexit="-100000"
     with open('help.txt', 'w') as f:
         with redirect_stdout(f):
             if "input(" not in wel:
