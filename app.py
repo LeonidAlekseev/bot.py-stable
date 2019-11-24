@@ -348,7 +348,7 @@ def index():
                         if "input(" in message:
                             result = "Ошибка исполнения. Нельзя использовать input!"
                         elif "\nreturn" in message:
-                            result = "Ошибка исполнения. Вы забыли сделать отступ перед replace!"
+                            result = "Ошибка исполнения. Вы забыли сделать отступ перед return!"
                         elif message.find("return") == 0 or message.find("return")<message.find("def"):
                             result = "Ошибка исполнения. Вместе с return должна быть задана функция!"
                         else:
