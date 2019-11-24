@@ -338,7 +338,7 @@ def index():
                 else:
                     send_message(chat_id, text="Вот что у нас получилось:")
                     send_message(chat_id, text=my_string)
-                    send_message(chat_id, text="1) Проверьте правильность распознования \n2) Скопируйте код \n3) Отправьте его нам для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
+                    send_message(chat_id, text="1) Проверьте правильность распознования 2) Скопируйте и отправьте код для исполнения\n**Если вы что-то упустите, мы подскажем, где ошибка!")
             elif message != "":
                 now = datetime.datetime.now()
                 if now.hour+3 == 4 and 0<now.minute<5:
