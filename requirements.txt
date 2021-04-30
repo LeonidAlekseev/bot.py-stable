@@ -10,7 +10,7 @@ Jinja2==2.10.3
 MarkupSafe==1.1.1
 PySocks==1.7.1
 requests==2.22.0
-urllib3==1.25.6
+urllib3==1.25.8
 Werkzeug==0.16.0
 colorama==0.4.1
 configparser==4.0.2
